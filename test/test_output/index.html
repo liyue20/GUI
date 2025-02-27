@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aigui-generator-html</title>
+    <style>
+        /* CSS 变量 */
+        :root {
+    --color-theme-primary-50: #f3def7;
+    --color-theme-primary-100: #ebc1f2;
+    --color-theme-primary-200: #dba0e5;
+    --color-theme-primary-300: #cc82d8;
+    --color-theme-primary-400: #bd66cc;
+    --color-theme-primary-500: #9C27B0;
+    --color-theme-primary-600: #892d99;
+    --color-theme-primary-700: #70197f;
+    --color-theme-primary-800: #580a66;
+    --color-theme-primary-900: #41004c;
+    --color-layout-card-background: #f3def7;
+    --color-layout-card-border: #deb7e5;
+    --color-layout-block-background: #e7c9ed;
+    --color-layout-block-border: #d0a2d8;
+    --color-component-title_background-h1: #b472bf;
+    --color-component-title_background-h2: #c38ecc;
+    --color-component-title_background-h3: #d2add8;
+    --color-component-title_background-h4: #e2cee5;
+    --color-component-title_background-h5: #f0e6f2;
+    --color-component-subsection-background: #f1dcf4;
+    --color-component-subsection-border: #d9b3e0;
+    --color-component-content-background: #f8edf9;
+    --color-typography-title-h1: #210726;
+    --color-typography-title-h2: #2d0f33;
+    --color-typography-title-h3: #3a193f;
+    --color-typography-title-h4: #46264c;
+    --color-typography-title-h5: #543559;
+    --color-typography-text-primary: #2d0f33;
+    --color-typography-text-secondary: #46264c;
+    --spacing-nano: 2px;
+    --spacing-micro: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    --font-size-caption: 12px;
+    --font-size-body: 14px;
+    --font-size-subtitle: 16px;
+    --font-size-title: 18px;
+    --font-size-h3: 20px;
+    --font-size-h2: 24px;
+    --font-size-h1: 28px;
+    --font-size-display: 32px;
+}
+        
+        /* CSS 规则 */
+        
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    background: #f5f5f5;
+    padding: 20px;
+    overflow: auto;
+}
+
+/* 卡片容器 */
+.card {
+    background: var(--color-layout-card-background);
+    border: 1px solid var(--color-layout-card-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+/* 块级元素 */
+.block {
+    background: var(--color-layout-block-background);
+    border: 1px solid var(--color-layout-block-border);
+    border-radius: 8px;
+    padding: var(--spacing-block-padding);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 子区块 */
+.subsection {
+    background: var(--color-component-subsection-background);
+    border: 1px solid var(--color-component-subsection-border);
+    border-radius: 6px;
+    padding: var(--spacing-subsection-padding);
+    margin: var(--spacing-subsection-margin_top) 0;
+}
+
+/* 标题样式 */
+.title-1 {
+    background: var(--color-component-title_background-h1);
+    color: var(--color-typography-title-h1);
+    font-size: var(--font-size-h1);
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    padding: var(--spacing-sm);
+    border-radius: 6px;
+}
+
+.title-2 {
+    background: var(--color-component-title_background-h2);
+    color: var(--color-typography-title-h2);
+    font-size: var(--font-size-h2);
+    line-height: 1.3;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+}
+
+.title-3 {
+    background: var(--color-component-title_background-h3);
+    color: var(--color-typography-title-h3);
+    font-size: var(--font-size-h3);
+    line-height: 1.4;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+}
+
+/* 内容区域 */
+.content {
+    background: var(--color-component-content-background);
+    color: var(--color-typography-text-primary);
+    font-size: var(--font-size-body);
+    line-height: 1.6;
+    padding: var(--spacing-sm);
+    border-radius: 4px;
+}
+
+.content p {
+    margin-bottom: var(--spacing-sm);
+}
+
+.content p:last-child {
+    margin-bottom: 0;
+}
+
+/* 图片样式 */
+.image-wrapper {
+    margin: var(--spacing-md) 0;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 代码块 */
+.code-block {
+    background: var(--color-layout-block-background);
+    border: 1px solid var(--color-layout-block-border);
+    border-radius: 4px;
+    padding: var(--spacing-sm);
+    margin: var(--spacing-md) 0;
+    overflow-x: auto;
+}
+
+/* 表格样式 */
+.table-container {
+    margin: var(--spacing-md) 0;
+    overflow-x: auto;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-component-content-background);
+}
+
+th, td {
+    padding: var(--spacing-xs);
+    border: 1px solid var(--color-layout-block-border);
+    text-align: left;
+}
+
+th {
+    background: var(--color-layout-block-background);
+    font-weight: 600;
+    color: var(--color-typography-title-h3);
+}
+
+td {
+    color: var(--color-typography-text-primary);
+}
+
+    </style>
+</head>
+<body>
+    
+            <div class="card" style="
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            ">
+            
+<div id="block_0" class="block" style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                ">
+<h1 class="title-1">网易云音乐再“撕”腾讯音乐抄袭，两大巨头正互相起诉中</h1>
+<div class="content" style="display: flex; flex-direction: column; gap: 0.5rem;">
+
+<p><strong>合规科技</strong>
+        <div class="image-wrapper">
+            <img
+                src="https://static.21jingji.com/images/m/icon_nch.png"
+                alt=""
+                title=""
+                class="content-image"
+            />
+        </div>
+        肖潇 2024-11-27 12:24</p>
+
+<p><strong>21世纪经济报道记者肖潇 实习生 袁清渠 北京报道</strong></p>
+<p>音乐巨头再次就知识产权开战。11月25日，网易云音乐在新浪微博发布一篇公开信，喊话QQ音乐停止“抄袭式更新”，并对比了QQ音乐和自家产品在产品功能、界面设计上的雷同。</p>
+<p>截至发稿，QQ音乐未给出回应，但同属腾讯音乐娱乐集团的酷狗音乐在微博隔空回击了网易云音乐：“播放器背景的DIY功能不是我先做的么”“我这个算什么式创新？”暗讽网易云音乐也并不“清白”。</p>
+<p>时间回到2021年，当时网易云音乐和腾讯音乐集团的版权战火，就烧到了“产品抄袭”这一细枝上。<strong>21记者检索到，网易云音乐在2022—2024年间密集申请了七百多条专利信息，本次提到的黑胶打碟界面、“一起听歌”图形用户界面，分别在2022年和2024年发布了专利公示。</strong></p>
+<p><strong>与此同时，两家巨头正在以“不正当竞争”为案由互相起诉：根据天眼查信息，去年11月，腾讯音乐诉网易公司首次开庭；今年2月，网易云诉腾讯音乐案开庭。受理法院皆为杭州市中级人民法院。</strong></p>
+<p>不过，受访人士告诉21记者，不管指控侵犯专利权还是指控不正当竞争，互联网产品“抄袭”问题的法律认定非常复杂，维权难度高、不确定性大。竞争对手互相模仿，只要不是特别严重的大规模抄袭，司法实践一般不会干涉。</p>
+<p>纷纷扰扰背后，根本矛盾还是在音乐平台的发展危机上。</p>
+</div>
+<div class="subsections-wrapper" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<div class="subsection" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<h4 class="title-4">2021年开始的“抄袭”罗生门</h4>
+<div class="content" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<p>本次网易云音乐指责qq音乐“抄袭式更新”，罗列了三个例子：</p>
+<ul>
+<li>2013年网易云上线黑胶播放器页面，2022年QQ音乐推出类似界面；</li>
+<li>2020年网易云上线“一起听”功能，年底QQ音乐上线“音乐房间”，第二年改名为“一起听”；</li>
+<li>2024年春节网易云推出故宫系列主题播放器，同年10月，QQ音乐推出类似主题。</li>
+</ul>
+<p>作为在线音乐平台两大巨头，这不是网易云音乐和腾讯音乐集团第一次在产品问题上交锋。</p>
+<p>2021年2月，网易云音乐曾在微信公众号发表文章《网易云音乐：关于给酷狗音乐相关团队申请年终奖励的建议》，认为对方将网易云新功能“酷狗化”。<strong>本次提到的“一起听”“云贝推歌”功能在当年已经是争议焦点。</strong></p>
+<p>当时酷狗音乐副总裁谢欢发文反驳：“原来我06年做的QQ一起听功能，竟然有如此深远的战略意义，找到当年的需求文档回味下，我能不能告别人山寨了我呢？”并附上了当年的需求文档截图作为依据。</p>
+<p>一年后的2022年4月，网易云音乐正式起诉腾讯音乐娱乐集团（旗下有QQ音乐、酷我音乐、酷狗音乐、全民K歌等产品）。起诉一方面指向歌曲版权，网易云指控腾讯音乐非法盗播无授权歌曲、冒名洗歌；另一方面指向专利技术，涉及视觉设计、产品功能、创新机制等方面的雷同。</p>
+<p>网易云音乐当时解释，黑胶播放界面是自身产品的核心设计，已注册相关设计专利，并在公众中形成了极高的知名度、辨识度和影响力。</p>
+<p>21记者检索天眼查发现，2022年3月，网易云音乐的“显示屏幕面板的黑胶打碟图形用户界面”的确发布了专利公示；“一起听歌”用户界面的发送邀请也在今年8月进行了专利公示，属于外观设计专利。<strong>成立十一年的网易云音乐，超过七成的专利都在近三年里密集申请（764件）。</strong></p>
+<p>除了侵犯著作权，2022年时网易云公司还指控腾讯音乐对整个在线音乐市场实施了不正当竞争行为。不过值得一提的是，公开信息中无法找到该案的开庭公告，<strong>反倒是同年6月，腾讯音乐起诉了网易云音乐不正当竞争，该案在3个月后以腾讯主动撤诉告终。</strong></p>
+<p>最近两家公司再次选择法庭相见。根据天眼查信息，去年11月，腾讯公司、腾讯音乐诉网易公司案开庭，本月进行了第三次开庭；2月，网易云诉腾讯音乐、腾讯公司案开庭。两起案件的案由均为不正当竞争，受理法院是杭州市中级人民法院。</p>
+</div>
+</div>
+<div class="subsection" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<h4 class="title-4">“抄袭”更可能涉及不正当竞争问题</h4>
+<div class="content" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<p>时隔三年，两家音乐平台再次互指抄袭。为什么这一法律争议始终没有定论，互联网产品“互抄”到底成不成立？</p>
+<p>广东卓建律师事务所合伙人律师、娱乐体育法律研究中心主任丁涛告诉21记者，产品设计首先属于专利权中的外观设计，但侵权问题非常复杂。</p>
+<p>通常情况下，专利权保护的是实现某种外观/功能的具体方案，需要考虑专利权的保护范围、外观设计是否构成相同或相似，通过司法实践和权威鉴定机构才能认定。简单来说，就算两种产品最终呈现的效果非常类似，也不能认定后者就侵犯了前者的专利权。</p>
+<p>上海大邦律师事务所高级合伙人游云庭也表达了类似看法。国内的用户界面设计通常要和硬件结合，才能授予专利，专利授予难度高，维权的实际难度也不小。</p>
+<p>受访人士因此都认为，<strong>对于互联网产品抄袭争议，更可能触发的法律问题是不正当竞争。</strong></p>
+<p>像网易云反复提到的黑胶唱片页面，可能属于《反不正当竞争法》保护的具有一定影响力产品的名称包装装潢权。如果涉嫌抄袭和擅自使用，还可能违反《反不正当竞争法》关于商业道德原则的条款。</p>
+<p>不过游云庭告诉21记者，认定不正当竞争也是一个复杂的法律问题。<strong>只有大量的抄袭，才能构成反不正当竞争法意义上的不正当竞争，如果只是模仿竞争对手几个功能或者界面设计，并不足以让法院判定构成不正当竞争。</strong></p>
+<p>还存在另一种情况是，声称别人抄袭的一方可能借鉴了第三方的设计，“在诉讼当中被指责抄袭的一方通常会对此举证，这也会让情况变得更加复杂。”游云庭说。</p>
+<p>此前司法实践中有认定UI（界面设计）构成不正当竞争行为的判例。比如2018年，北京市海淀区人民法院认为：被告App同为通过互联网产品提供服务的经营者，直接使用了快手App的界面设计，显然系未付出任何劳动故意截取他人利益的“不劳而获”行为，违反了诚实信用原则和公认的商业道德，最终认定被告违反了《反不正当竞争法》。</p>
+<p>但，“这不代表其他案子也能适用，变数依然很大。”丁涛解释，法院可能会考虑是否存在不诚信使用了前人智力成果的行为，或者后者呈现出来的视觉效果足以让用户混淆等等。整体来看是一个复杂的法律问题，目前很难下定论。</p>
+<p>多位受访人士因此告诉21记者，<strong>在他们看来，音乐平台这次的抄袭指责主要是“打嘴仗和争取舆论”。比起法律上的争议，更大的问题是行业陷于发展危机。</strong></p>
+</div>
+</div>
+<div class="subsection" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<h4 class="title-4">失去歌曲版权“护城河”的时代</h4>
+<div class="content" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<p>此前的在线音乐平台，主要是靠歌曲版权搭建自己的护城河。</p>
+<p>2015年，国家版权局发布了被称为“史上最严版权令”的《关于责令网络音乐服务商停止未经授权传播音乐作品的通知》，责令各网络音乐服务商将未经授权传播的音乐作品全部下线。互联网音乐版权的免费午餐结束，各大平台开始靠歌曲的“独家版权”吸引流量。</p>
+<p>在2021年之后，这种烧钱买歌抢用户的模式不再走得通了。2021年，国家市场监管总局要求腾讯音乐取消独家版权，叫停此类“二选一”行为，并给出了明确条款：与新歌首发的独家合作期限不得超过三十日。</p>
+<p><strong>这一新规意味着，歌手与平台的版权关系从“独家”变成“首发”，音乐平台只能争夺短暂的三十天版权“窗口期”，竞争重心因此又开始转向运营手段。</strong></p>
+<p>财报显示，网易云音乐虽然在2023年首次实现了全年扭亏为盈，但整体收入在下降。去年公司总营收为78.67亿元，同比下降了12.51%。</p>
+<p>腾讯音乐去年的全年收入虽然也在下降，但在网易云音乐面前仍有绝对优势。2023年，腾讯音乐全年总收入为277.5亿元，同比下降2.1%；净利润49.2亿元，大约是网易云音乐的七倍。</p>
+<p>灼识咨询的报告指出，2023年腾讯音乐旗下QQ音乐、酷狗音乐、酷我音乐合计市场份额约为73%，而网易云音乐连续多年维持在20%左右，维持“一超一强”局面。但2023年中国在线音乐用户规模为7.44亿人，整体增幅仅有3.7%。</p>
+<p>要在大盘变冷的情况下继续竞争，两大音乐平台必须找到更多方式维持增长，“下功夫”改进用户体验和功能就成了必选项。<strong>法庭之外的“嘴炮”未停，根本原因还是音乐平台们囿于竞争困境——“抢食”用户的压力在变大，“抢食”手段也在变化。</strong></p>
+<p>不过在网易云音乐的发文微博下，更多用户关心的不是谁模仿了谁，而是批评歌曲版权太少，平台广告过多且功能杂乱，原创内容水平不高……网易云音乐呼吁QQ音乐 “少一点跟随式‘更新’，多一点真正的创新”，或许需要认真思考下一步“创新”方向的，是整个在线音乐平台市场。</p>
+<p>（作者：肖潇 编辑：王俊）</p>
+<p>南方财经全媒体集团及其客户端所刊载内容的知识产权均属其旗下媒体。未经书面授权，任何人不得以任何方式使用。详情或获取授权信息。</p>
+<p>
+        <div class="image-wrapper">
+            <img
+                src="https://img.21jingji.com/uploadfile/cover/20241127/8cb7bdfe052ecd5c4839f95ecafda692.jpg"
+                alt=""
+                title=""
+                class="content-image"
+            />
+        </div>
+        </p>
+
+<p>肖潇</p>
+</div>
+</div>
+<div class="subsection" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<h3 class="title-3">记者</h3>
+<div class="content" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<p>关注国内外互联网合规问题。</p>
+<p>
+        <div class="image-wrapper">
+            <img
+                src="https://img.21jingji.com/uploadfile/author/qyqrcode/3253.png"
+                alt=""
+                title=""
+                class="content-image"
+            />
+        </div>
+        </p>
+
+<p>评论</p>
+
+<p>相关文章</p>
+<p>推荐阅读</p>
+<p>ZMYinit();</p>
+<p>
+        <div class="image-wrapper">
+            <img
+                src="https://static.21jingji.com/images/m/icon_home_nckx2@2x.png"
+                alt=""
+                title=""
+                class="content-image"
+            />
+        </div>
+        </p>
+
+
+
+
+
+
+
+
+
+
+
+<ul>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+</ul>
+<p>window.trackJsStart(&#x27;21jingji&#x27;); var shareImg = &quot;https://static.21jingji.com/images/app/sfcAppShareIcon_300.jpg&quot;; // $(&#x27;#wxShare&#x27;).html(&#x27;
+        <div class="image-wrapper">
+            <img
+                src="' + shareImg + '"
+                alt=""
+                title=""
+                class="content-image"
+            />
+        </div>
+        &#x27;) var jssdk_url = &quot;https://m.21jingji.com/wechat/jssdk/?url=&quot;+encodeURIComponent(window.location.href); document.write(&quot;</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+2025-02-12 16:32:47,985 [INFO] - ����������
+2025-02-12 16:41:25,014 [INFO] - Episode 0, Reward: 485.29, Steps: 700, Epsilon: 0.100, Temperature: 1.000
+2025-02-12 16:50:23,387 [INFO] - Episode 1, Reward: 519.99, Steps: 700, Epsilon: 0.098, Temperature: 0.984
+2025-02-12 16:58:28,646 [INFO] - Episode 2, Reward: 332.64, Steps: 700, Epsilon: 0.097, Temperature: 0.969
+2025-02-12 17:06:32,604 [INFO] - Episode 3, Reward: 481.01, Steps: 700, Epsilon: 0.095, Temperature: 0.953
+2025-02-12 17:14:03,455 [INFO] - Episode 4, Reward: 440.29, Steps: 700, Epsilon: 0.094, Temperature: 0.938
+2025-02-12 17:22:02,758 [INFO] - Episode 5, Reward: 543.69, Steps: 700, Epsilon: 0.092, Temperature: 0.922
+2025-02-12 17:29:33,653 [INFO] - Episode 6, Reward: 335.95, Steps: 700, Epsilon: 0.091, Temperature: 0.906
+2025-02-12 17:37:31,134 [INFO] - Episode 7, Reward: 324.02, Steps: 700, Epsilon: 0.089, Temperature: 0.891
+2025-02-12 17:45:36,499 [INFO] - Episode 8, Reward: 479.60, Steps: 700, Epsilon: 0.088, Temperature: 0.875
+2025-02-12 17:53:16,577 [INFO] - Episode 9, Reward: 423.47, Steps: 700, Epsilon: 0.086, Temperature: 0.859
+2025-02-12 18:01:22,258 [INFO] - Episode 10, Reward: 497.15, Steps: 700, Epsilon: 0.084, Temperature: 0.844
+2025-02-12 18:09:25,891 [INFO] - Episode 11, Reward: 391.95, Steps: 700, Epsilon: 0.083, Temperature: 0.828
+2025-02-12 18:16:59,023 [INFO] - Episode 12, Reward: 277.31, Steps: 700, Epsilon: 0.081, Temperature: 0.812
+ 

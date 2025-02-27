@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>aigui-generator-html</title>
+    <style>
+        /* CSS 变量 */
+        :root {
+    --color-theme-primary-50: #def7df;
+    --color-theme-primary-100: #c1f2c3;
+    --color-theme-primary-200: #a0e5a3;
+    --color-theme-primary-300: #82d885;
+    --color-theme-primary-400: #66cc6a;
+    --color-theme-primary-500: #4CAF50;
+    --color-theme-primary-600: #2d9932;
+    --color-theme-primary-700: #197f1d;
+    --color-theme-primary-800: #0a660d;
+    --color-theme-primary-900: #004c03;
+    --color-layout-card-background: #def7df;
+    --color-layout-card-border: #b7e5b9;
+    --color-layout-block-background: #c9edcb;
+    --color-layout-block-border: #a2d8a4;
+    --color-component-title_background-h1: #72bf75;
+    --color-component-title_background-h2: #8ecc91;
+    --color-component-title_background-h3: #add8af;
+    --color-component-title_background-h4: #cee5cf;
+    --color-component-title_background-h5: #e6f2e6;
+    --color-component-subsection-background: #dcf4dd;
+    --color-component-subsection-border: #b3e0b5;
+    --color-component-content-background: #edf9ed;
+    --color-typography-title-h1: #072608;
+    --color-typography-title-h2: #0f3310;
+    --color-typography-title-h3: #193f1b;
+    --color-typography-title-h4: #264c27;
+    --color-typography-title-h5: #355936;
+    --color-typography-text-primary: #0f3310;
+    --color-typography-text-secondary: #264c27;
+    --spacing-xxs: 2px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+    --spacing-xxl: 32px;
+    --font-size-caption: 12px;
+    --font-size-body: 16px;
+    --font-size-subtitle: 20px;
+    --font-size-title: 24px;
+    --font-size-h3: 28px;
+    --font-size-h2: 29px;
+    --font-size-h1: 32px;
+    --font-size-display: 40px;
+}
+        
+        /* CSS 规则 */
+        
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    background: var(--color-layout-card-background);
+    padding: 0px;
+    overflow: auto;
+}
+
+/* 卡片容器 */
+.card {
+    background: var(--color-layout-card-background);
+    border: 1px solid var(--color-layout-card-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+/* 块级元素 */
+.block {
+    background: var(--color-layout-block-background);
+    border: 1px solid var(--color-layout-block-border);
+    border-radius: 8px;
+    padding: var(--spacing-block-padding);
+}
+
+/* 子区块 */
+.subsection {
+    background: var(--color-component-subsection-background);
+    border: 1px solid var(--color-component-subsection-border);
+    border-radius: 6px;
+    padding: var(--spacing-subsection-padding);
+    margin: var(--spacing-subsection-margin_top) 0;
+}
+
+/* 标题样式 */
+.title-1 {
+    background: var(--color-component-title_background-h1);
+    color: var(--color-typography-title-h1);
+    font-size: var(--font-size-h1);
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    padding: var(--spacing-sm);
+    border-radius: 6px;
+}
+
+.title-2 {
+    background: var(--color-component-title_background-h2);
+    color: var(--color-typography-title-h2);
+    font-size: var(--font-size-h2);
+    line-height: 1.3;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+}
+
+.title-3 {
+    background: var(--color-component-title_background-h3);
+    color: var(--color-typography-title-h3);
+    font-size: var(--font-size-h3);
+    line-height: 1.4;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+}
+
+/* 内容区域 */
+.content {
+    background: var(--color-component-content-background);
+    color: var(--color-typography-text-primary);
+    font-size: var(--font-size-body);
+    line-height: 1.6;
+    padding: var(--spacing-sm);
+    border-radius: 4px;
+}
+
+.content p {
+    margin-bottom: var(--spacing-sm);
+}
+
+.content p:last-child {
+    margin-bottom: 0;
+}
+
+/* 图片样式 */
+.image-wrapper {
+    margin: var(--spacing-xs) 0;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    margin: 0 auto;
+}
+/* 代码块 */
+.code-block {
+    background: var(--color-layout-block-background);
+    border: 1px solid var(--color-layout-block-border);
+    border-radius: 4px;
+    padding: var(--spacing-sm);
+    margin: var(--spacing-md) 0;
+    overflow-x: auto;
+}
+
+/* 表格样式 */
+.table-container {
+    margin: var(--spacing-md) 0;
+    overflow-x: auto;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-component-content-background);
+}
+
+th, td {
+    padding: var(--spacing-xs);
+    border: 1px solid var(--color-layout-block-border);
+    text-align: left;
+}
+
+th {
+    background: var(--color-layout-block-background);
+    font-weight: 600;
+    color: var(--color-typography-title-h3);
+}
+
+td {
+    color: var(--color-typography-text-primary);
+}
+ul {
+    list-style-position: inside;  
+}
+
+li {
+    margin-left: 5px;  
+}
+
+    </style>
+
+    <script>
+        function detectOverflow() {
+            const blocks = document.querySelectorAll('.block');
+            blocks.forEach(block => {
+                // 获取块的实际尺寸和内容尺寸
+                const isOverflowing = block.scrollHeight > block.clientHeight;
+                const overflowData = {
+                    isOverflowing: isOverflowing,
+                    scrollHeight: block.scrollHeight,
+                    clientHeight: block.clientHeight,
+                    difference: block.scrollHeight - block.clientHeight
+                };
+                
+                // 将溢出信息存储为数据属性
+                block.setAttribute('data-overflow', JSON.stringify(overflowData));
+                
+                if (isOverflowing) {
+                    // 可以直接在这里添加溢出类
+                    block.classList.add('needs-adjustment');
+                }
+            });
+        }
+        
+        // 页面加载完成后执行检测
+        window.addEventListener('load', detectOverflow);
+        // 窗口大小改变时重新检测
+        window.addEventListener('resize', detectOverflow);
+        </script><style>
+            .block {
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            /* 更细致的缩放控制 */
+            .block.needs-adjustment {
+                transform-origin: top left;
+            }
+            
+            .block.needs-adjustment .content {
+                font-size: 0.9em;
+                line-height: 1.4;
+            }
+            
+            .block.needs-adjustment .title-2 {
+                font-size: 0.95em;
+                margin-bottom: 0.5em;
+            }
+            
+            .block.needs-adjustment .title-3,
+            .block.needs-adjustment .title-4 {
+                font-size: 0.92em;
+                margin-bottom: 0.4em;
+            }
+            
+            .block.needs-adjustment .content,
+            .block.needs-adjustment .subsection {
+                padding: 4px;
+            }
+            
+            .block.needs-adjustment img {
+                max-width: 90%;
+                height: auto;
+            }
+            
+            /* 滚动条样式 */
+            .block.needs-adjustment {
+                overflow-y: auto;
+                max-height: 100%;
+            }
+        </style><style>
+            .block::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            .block::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 3px;
+            }
+            .block::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 3px;
+            }
+            .block::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        </style>
+  
+</head>
+<body>
+<div class="card" style="
+            width: 860px;
+            height: 730px;
+            position: relative;
+            overflow: hidden;
+        ">
+<div class="block" id="block_1" style="
+                    position: absolute;
+                    left: 10.750000000000009px;
+                    top: 492.75px;
+                    width: 408.5px;
+                    height: 231.16666666666666px;
+                ">
+<h1 class="title-1">请假方案</h1>
+<div class="subsections-wrapper">
+<div class="subsection" style="">
+<h4 class="title-4">请假理由：</h4>
+<div class="content" style="">
+<p>个人健康与家庭事务</p>
+</div>
+</div>
+<div class="subsection" style="">
+<h4 class="title-4">请假开始时间：</h4>
+<div class="content" style="">
+<p>2024-12-23 09:00</p>
+</div>
+</div>
+<div class="subsection" style="">
+<h4 class="title-4">请假结束时间：</h4>
+<div class="content" style="">
+<p>2024-12-27 18:00</p>
+</div>
+</div>
+<div class="subsection" style="">
+<h4 class="title-4">请假时长：</h4>
+<div class="content" style="">
+<p>5天</p>
+</div>
+</div>
+</div>
+</div>
+<div class="block" id="block_2" style="
+                    position: absolute;
+                    left: 10.750000000000009px;
+                    top: 6.083333333333339px;
+                    width: 408.5px;
+                    height: 231.16666666666666px;
+                ">
+<h1 class="title-1">请假日期</h1>
+<div class="content" style="">
+<div class="table-wrapper"><table>
+<thead><tr>
+<th>日期</th>
+<th>星期</th>
+<th>备注</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>12月23日</td>
+<td>周一</td>
+<td>请假</td>
+</tr>
+<tr>
+<td>12月24日</td>
+<td>周二</td>
+<td>请假</td>
+</tr>
+<tr>
+<td>12月25日</td>
+<td>周三</td>
+<td>请假</td>
+</tr>
+<tr>
+<td>12月26日</td>
+<td>周四</td>
+<td>请假</td>
+</tr>
+<tr>
+<td>12月27日</td>
+<td>周五</td>
+<td>请假</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="subsections-wrapper">
+</div>
+</div>
+<div class="block" id="block_3" style="
+                    position: absolute;
+                    left: 439.5px;
+                    top: 492.75px;
+                    width: 410.5px;
+                    height: 231.16666666666666px;
+                ">
+<h1 class="title-1">旅游建议</h1>
+<div class="content" style="">
+<p>根据您的假期时长，查询了近期适合出游的地点，建议前往以下地区及景点：</p>
+</div>
+<div id="map" style="width: 100%; height: calc(100% - 60px); border: 1px solid #ccc; border-radius: 6px;"></div>
+</div>
+<div class="block" id="block_5" style="
+                    position: absolute;
+                    left: 440.75px;
+                    top: 6.083333333333339px;
+                    width: 408.5px;
+                    height: 231.16666666666666px;
+                ">
+<h1 class="title-1">节假日信息</h1>
+<div class="content" style="">
+<p>根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为圣诞节，预计放假天数为1天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。</p>
+</div>
+<div class="subsections-wrapper">
+</div>
+</div>
+</div>
+<script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=SWOC1ml97B11kOlpeDWtLwkLPDEx6Wg3"></script>
+<script>
+    
+    // 初始化百度地图
+    function initMap() {
+        // 创建地图实例
+        var map = new BMapGL.Map('map');
+        
+        // 设置中心点和缩放级别
+        var point = new BMapGL.Point(116.404, 39.915); // 北京的经纬度
+        map.centerAndZoom(point, 12);
+
+        // 开启鼠标滚轮缩放功能
+        map.enableScrollWheelZoom(true);
+
+        // 添加标注点
+        var marker = new BMapGL.Marker(point);
+        map.addOverlay(marker);
+    }
+
+    // 页面加载完成后初始化地图
+    window.onload = initMap;
+</script>
+</body>
+</html>

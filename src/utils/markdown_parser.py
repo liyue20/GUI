@@ -1,0 +1,643 @@
+import re
+import markdown
+from bs4 import BeautifulSoup
+import json
+from typing import Dict, List, Optional
+import sys
+import io
+
+from src.utils.chart_parser import markdown_to_markdown
+
+# 设置默认编码
+#sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# 兼容设置 sys.stdout
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+else:
+    sys.stdout = sys.stdout  # 如果没有 buffer 属性，保持原始 sys.stdout
+
+class MarkdownParser:
+    """Markdown解析器，将Markdown文本转换为结构化JSON"""
+    
+    def __init__(self):
+        self.reset()
+    
+    def reset(self):
+        """重置解析器状态"""
+        self.sections = []
+        self.current_section = None
+        self.current_subsection = None
+    
+    def parse_to_json(self, markdown_text: str) -> str:
+        """
+        将Markdown文本解析为JSON格式
+        
+        Args:
+            markdown_text: Markdown格式的文本
+        Returns:
+            JSON字符串
+        """
+        self.reset()
+        if isinstance(markdown_text, bytes):
+            markdown_text = markdown_text.decode('utf-8')
+            
+        # 预处理文本
+        markdown_text = self._preprocess_text(markdown_text)
+        if not markdown_text.strip():
+            return json.dumps([], ensure_ascii=False)
+        
+        # 使用扩展来支持更多Markdown特性
+        extensions = [
+            'sane_lists',
+            'nl2br',
+            'extra',
+            'fenced_code',
+            'tables',
+            'def_list',
+            'attr_list'
+        ]
+        
+        # 将Markdown转换为HTML
+        html = markdown.markdown(markdown_text, extensions=extensions)
+        print(html)
+        soup = BeautifulSoup(html, 'html.parser')
+        # 遍历并解析内容
+        self._parse_content(soup,markdown_text)
+        
+        # 确保最后一个section被添加
+        if self.current_section:
+            self.sections.append(self.current_section)
+        
+        return json.dumps(self.sections, ensure_ascii=False, indent=2)
+    
+    def _parse_content(self, soup,markdown_text):
+        """解析HTML内容"""
+        for element in soup.children:
+            if not element.name:  # 跳过空文本节点
+                continue
+            
+            # 处理标题
+            if element.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+                level = int(element.name[1])
+                highest_level = self._get_highest_level_header(markdown_text)
+                if level == highest_level:  # 最高级标题开始新的主section
+                    self._handle_main_section(element)
+                else:  # 其他级别标题作为子section
+                    self._handle_subsection(element, level)
+            # 处理其他内容
+            elif self.current_section:
+                content = self._parse_element(element)
+                if content:
+                    # 根据当前上下文决定内容添加位置
+                    if self.current_subsection:
+                        self.current_subsection["content"].append(content)
+                    else:
+                        self.current_section["content"].append(content)
+    
+    def _handle_main_section(self, element):
+        """处理主section（h1标题）"""
+        # 保存当前section
+        if self.current_section:
+            self.sections.append(self.current_section)
+        
+        # 创建新的main section
+        self.current_section = {
+            "title": {
+                "text": element.get_text(strip=True),
+                "level": 1
+            },
+            "content": [],
+            "subsections": [],
+            "type": "section"
+        }
+        self.current_subsection = None
+    
+    def _handle_subsection(self, element, level):
+        """处理子section（h2-h6标题）"""
+        if not self.current_section:
+            # 如果没有主section，创建一个无标题的主section
+            self.current_section = {
+                "title": {"text": "", "level": 1},
+                "content": [],
+                "subsections": [],
+                "type": "section"
+            }
+        
+        # 创建新的subsection
+        self.current_subsection = {
+            "title": {
+                "text": element.get_text(strip=True),
+                "level": level
+            },
+            "content": [],
+            "type": "subsection"
+        }
+        self.current_section["subsections"].append(self.current_subsection)
+    
+    def _count_level1_headers(self, text: str) -> int:
+        """统计一级标题的数量"""
+        # 匹配行首的单个#号后面跟着空格的情况
+        matches = re.findall(r'(?m)^# ', text)
+        return len(matches)
+
+    def process_markdown(self, markdown_input: str) -> str:
+        # 检查是否有一级标题
+        if self._count_level1_headers(markdown_input) == 0:
+            # 将所有二级标题转换为一级标题
+            markdown_input = re.sub(r'(?m)^## ', '# ', markdown_input)
+        return markdown_input
+
+    def _get_highest_level_header(self, text: str) -> int:
+        """返回文档中最高级标题的层级（1为一级标题，2为二级标题，依此类推）"""
+        matches = re.findall(r'(?m)^(#+)', text)  # 匹配所有标题
+        if not matches:
+            return None  # 没有标题
+        levels = [len(match) for match in matches]  # 统计每个标题的层级
+        return min(levels)  # 返回最小层级，即最高级的标题
+
+    def _process_markdown(self, markdown_input: str) -> str:
+        """将文档中的最高级标题转化为一级标题，如果没有一级标题"""
+        # 获取文档中最高级标题的层级
+        highest_level = self._get_highest_level_header(markdown_input)
+
+        if highest_level is None:
+            # 如果没有标题，返回原始输入
+            return markdown_input
+
+        # 检查是否已有一级标题
+        if highest_level > 1:
+            # 如果没有一级标题，将最小层级的标题转换为一级标题
+            markdown_input = re.sub(r'(?m)^' + ('#' * highest_level) + r' ', '# ', markdown_input)
+
+        return markdown_input
+
+    def _preprocess_text(self, text: str) -> str:
+        """预处理文本"""
+        text=markdown_to_markdown(text)
+        text = text.replace('\\n', '\n')  # 替换 '\\n' 为实际的换行符
+        #text = self._process_markdown(text)  # 调用 _process_markdown 方法
+        lines = text.split('\n')  # 按行分割
+        lines = [line.rstrip() for line in lines]  # 去除每行右侧的空格
+        return '\n'.join(lines)  # 重新组合文本
+    
+    def _parse_element(self, element) -> Optional[Dict]:
+        """解析HTML元素"""
+        if not element.name:
+            return None
+            
+        element_handlers = {
+            'p': self._parse_paragraph,
+            'pre': self._parse_code_block,
+            'ul': self._parse_list,
+            'ol': self._parse_list,
+            'blockquote': self._parse_blockquote,
+            'table': self._parse_table,
+            'hr': self._parse_hr
+        }
+        
+        handler = element_handlers.get(element.name)
+        return handler(element) if handler else None
+    
+
+    
+    def _parse_paragraph(self, element) -> Dict:
+        """解析段落"""
+        contents = []
+        
+        for content in element.children:
+            if content.name == 'img':
+                contents.append({
+                    "type": "img",
+                    "src": content.get('src', ''),
+                    "alt": content.get('alt', ''),
+                    "title": content.get('title', '')
+                })
+            elif content.name == 'a':
+                contents.append({
+                    "type": "link",
+                    "text": content.get_text(strip=True),
+                    "url": content.get('href', '')
+                })        
+            elif content.name == 'strong' or content.name == 'b':
+                contents.append({
+                    "type": "bold",
+                    "text": content.text.strip()
+                })
+             # 处理斜体文本
+            elif content.name == 'em' or content.name == 'i':
+                contents.append({
+                    "type": "italic",
+                    "text": content.text.strip()
+                })
+            elif isinstance(content, str) and content.strip():
+                contents.append({
+                    "type": "text",
+                    "text": content.strip()
+                })
+        
+        
+        # 根据内容返回适当的结构
+        if len(contents) == 1:
+            if contents[0]["type"] == ["img", "a","bold", "italic"]:
+                return contents[0]
+            if contents[0]["type"] == "text":
+                return {
+                    "type": "p",
+                    "text": contents[0]["text"]
+                }
+        
+        return {
+            "type": "p",
+            "content": contents
+        }
+    def _parse_link(self, element) -> Dict:
+        """解析超链接"""
+        return {
+            "type": "link",
+            "text": element.get_text(strip=True),
+            "url": element.get('href', '')
+        }    
+    def _parse_code_block(self, element) -> Dict:
+        """解析代码块"""
+        code = element.find('code')
+        language = ''
+        if code and code.get('class'):
+            language = code.get('class')[0].replace('language-', '')
+        return {
+            "type": "pre",
+            "language": language,
+            "text": code.text if code else element.text
+        }
+    
+    def _parse_list(self, element) -> Dict:
+        """解析列表"""
+        return {
+            "type": element.name,
+            "items": self._parse_list_items(element)
+        }
+    
+    def _parse_list_items(self, list_element) -> List[Dict]:
+        """解析列表项，递归处理嵌套的 ul 或 ol 标签"""
+        items = []
+        for li in list_element.find_all('li', recursive=False):
+            # 处理 <p> 标签的内容（如果有的话）
+            p_text = ""
+            p_tag = li.find('p')
+            if p_tag:
+                p_text = p_tag.get_text(strip=True)  # 仅获取 <p> 标签的纯文本
+
+            # 获取列表项的基本文本，确保去除不必要的空白字符
+            li_text = li.get_text(strip=True)
+
+            # 合并文本时，避免重复 <p> 和 <li> 的内容
+            item_text = p_text if p_text else li_text
+
+            # 创建字典项
+            item = {
+                "text": item_text,  # 使用处理过的文本
+                "sub_items": []
+            }
+
+            # 处理子列表，递归解析 ul 或 ol 标签
+            sublist = li.find(['ul', 'ol'], recursive=False)
+            if sublist:
+                # 如果是有序列表，且子列表为无序列表（ul），则转换为无序列表
+                if sublist.name == 'ol':
+                    item["sub_items"] = self._parse_list_items(sublist)
+                elif sublist.name == 'ul':  # 如果是无序列表
+                    item["sub_items"] = self._parse_list_items(sublist)
+
+            items.append(item)
+        return items
+
+    def _parse_blockquote(self, element) -> Dict:
+        """解析引用块"""
+        return {
+            "type": "blockquote",
+            "text": element.text.strip()
+        }
+    
+    def _parse_table(self, element) -> Dict:
+        """解析表格"""
+        headers = []
+        rows = []
+        
+        header_row = element.find('tr')
+        if header_row:
+            headers = [th.text.strip() for th in header_row.find_all(['th', 'td'])]
+        
+        for tr in element.find_all('tr')[1:]:
+            row = [td.text.strip() for td in tr.find_all('td')]
+            if row:
+                rows.append(row)
+                
+        return {
+            "type": "table",
+            "headers": headers,
+            "rows": rows
+        }
+    
+    def _parse_hr(self, element) -> Dict:
+        """解析分割线"""
+        return {
+            "type": "hr"
+        }
+
+
+class MarkdownParser_old:
+    """Markdown解析器，将Markdown文本转换为结构化JSON"""
+    
+    def __init__(self):
+        self.reset()
+    
+    def reset(self):
+        """重置解析器状态"""
+        self.sections = []
+        self.current_section = None
+        self.current_subsection = None
+    
+    def parse_to_json(self, markdown_text: str) -> str:
+        """
+        将Markdown文本解析为JSON格式
+        
+        Args:
+            markdown_text: Markdown格式的文本
+        Returns:
+            JSON字符串
+        """
+        self.reset()
+        if isinstance(markdown_text, bytes):
+            markdown_text = markdown_text.decode('utf-8')
+            
+        # 预处理文本
+        markdown_text = self._preprocess_text(markdown_text)
+        if not markdown_text.strip():
+            return json.dumps([], ensure_ascii=False)
+        
+        # 使用扩展来支持更多Markdown特性
+        extensions = [
+            'sane_lists',
+            'nl2br',
+            'extra',
+            'fenced_code',
+            'tables',
+            'def_list',
+            'attr_list'
+        ]
+        
+        # 将Markdown转换为HTML
+        html = markdown.markdown(markdown_text, extensions=extensions)
+        print(html)
+        soup = BeautifulSoup(html, 'html.parser')
+        # 遍历并解析内容
+        self._parse_content(soup)
+        
+        # 确保最后一个section被添加
+        if self.current_section:
+            self.sections.append(self.current_section)
+        
+        return json.dumps(self.sections, ensure_ascii=False, indent=2)
+    
+    def _parse_content(self, soup):
+        """解析HTML内容"""
+        for element in soup.children:
+            if not element.name:  # 跳过空文本节点
+                continue
+            
+            # 处理标题
+            if element.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+                level = int(element.name[1])
+                if level == 1:  # h1标题开始新的主section
+                    self._handle_main_section(element)
+                else:  # 其他级别标题作为子section
+                    self._handle_subsection(element, level)
+            # 处理其他内容
+            elif self.current_section:
+                content = self._parse_element(element)
+                if content:
+                    # 根据当前上下文决定内容添加位置
+                    if self.current_subsection:
+                        self.current_subsection["content"].append(content)
+                    else:
+                        self.current_section["content"].append(content)
+    
+    def _handle_main_section(self, element):
+        """处理主section（h1标题）"""
+        # 保存当前section
+        if self.current_section:
+            self.sections.append(self.current_section)
+        
+        # 创建新的main section
+        self.current_section = {
+            "title": {
+                "text": element.get_text(strip=True),
+                "level": 1
+            },
+            "content": [],
+            "subsections": [],
+            "type": "section"
+        }
+        self.current_subsection = None
+    
+    def _handle_subsection(self, element, level):
+        """处理子section（h2-h6标题）"""
+        if not self.current_section:
+            # 如果没有主section，创建一个无标题的主section
+            self.current_section = {
+                "title": {"text": "", "level": 1},
+                "content": [],
+                "subsections": [],
+                "type": "section"
+            }
+        
+        # 创建新的subsection
+        self.current_subsection = {
+            "title": {
+                "text": element.get_text(strip=True),
+                "level": level
+            },
+            "content": [],
+            "type": "subsection"
+        }
+        self.current_section["subsections"].append(self.current_subsection)
+    
+    def _count_level1_headers(self, text: str) -> int:
+        """统计一级标题的数量"""
+        # 匹配行首的单个#号后面跟着空格的情况
+        matches = re.findall(r'(?m)^# ', text)
+        return len(matches)
+
+    def _process_markdown(self, markdown_input: str) -> str:
+        """
+        如果只有一个一级标题，则删除该标题并将所有二级标题转为一级标题
+        """
+        # 检查是否只有一个一级标题
+        if self._count_level1_headers(markdown_input) == 1:
+            # 删除第一个一级标题（包括其后的换行符）
+            markdown_input = re.sub(r'^# [^\n]*\n+', '', markdown_input)
+            
+            # 将所有二级标题转换为一级标题
+            markdown_input = re.sub(r'(?m)^## ', '# ', markdown_input)
+        
+        return markdown_input
+
+    def _preprocess_text(self, text: str) -> str:
+        """预处理文本"""
+        text=markdown_to_markdown(text)
+        text = text.replace('\\n', '\n')  # 替换 '\\n' 为实际的换行符
+        #text = self._process_markdown(text)  # 调用 _process_markdown 方法
+        lines = text.split('\n')  # 按行分割
+        lines = [line.rstrip() for line in lines]  # 去除每行右侧的空格
+        return '\n'.join(lines)  # 重新组合文本
+    
+    def _parse_element(self, element) -> Optional[Dict]:
+        """解析HTML元素"""
+        if not element.name:
+            return None
+            
+        element_handlers = {
+            'p': self._parse_paragraph,
+            'pre': self._parse_code_block,
+            'ul': self._parse_list,
+            'ol': self._parse_list,
+            'blockquote': self._parse_blockquote,
+            'table': self._parse_table,
+            'hr': self._parse_hr
+        }
+        
+        handler = element_handlers.get(element.name)
+        return handler(element) if handler else None
+    
+    def _parse_paragraph(self, element) -> Dict:
+        """解析段落"""
+        contents = []
+        
+        for content in element.children:
+            if content.name == 'img':
+                contents.append({
+                    "type": "img",
+                    "src": content.get('src', ''),
+                    "alt": content.get('alt', ''),
+                    "title": content.get('title', '')
+                })
+            elif content.name == 'strong' or content.name == 'b':
+                contents.append({
+                    "type": "bold",
+                    "text": content.text.strip()
+                })
+             # 处理斜体文本
+            elif content.name == 'em' or content.name == 'i':
+                contents.append({
+                    "type": "italic",
+                    "text": content.text.strip()
+                })
+            elif isinstance(content, str) and content.strip():
+                contents.append({
+                    "type": "text",
+                    "text": content.strip()
+                })
+        
+        
+        # 根据内容返回适当的结构
+        if len(contents) == 1:
+            if contents[0]["type"] == ["img", "bold", "italic"]:
+                return contents[0]
+            if contents[0]["type"] == "text":
+                return {
+                    "type": "p",
+                    "text": contents[0]["text"]
+                }
+        
+        return {
+            "type": "p",
+            "content": contents
+        }
+    
+    def _parse_code_block(self, element) -> Dict:
+        """解析代码块"""
+        code = element.find('code')
+        language = ''
+        if code and code.get('class'):
+            language = code.get('class')[0].replace('language-', '')
+        return {
+            "type": "pre",
+            "language": language,
+            "text": code.text if code else element.text
+        }
+    
+    def _parse_list(self, element) -> Dict:
+        """解析列表"""
+        return {
+            "type": element.name,
+            "items": self._parse_list_items(element)
+        }
+    
+    def _parse_list_items(self, list_element) -> List[Dict]:
+        """解析列表项，递归处理嵌套的 ul 或 ol 标签"""
+        items = []
+        for li in list_element.find_all('li', recursive=False):
+            # 处理 <p> 标签的内容（如果有的话）
+            p_text = ""
+            p_tag = li.find('p')
+            if p_tag:
+                p_text = p_tag.get_text(strip=True)  # 仅获取 <p> 标签的纯文本
+
+            # 获取列表项的基本文本，确保去除不必要的空白字符
+            li_text = li.get_text(strip=True)
+
+            # 合并文本时，避免重复 <p> 和 <li> 的内容
+            item_text = p_text if p_text else li_text
+
+            # 创建字典项
+            item = {
+                "text": item_text,  # 使用处理过的文本
+                "sub_items": []
+            }
+
+            # 处理子列表，递归解析 ul 或 ol 标签
+            sublist = li.find(['ul', 'ol'], recursive=False)
+            if sublist:
+                # 如果是有序列表，且子列表为无序列表（ul），则转换为无序列表
+                if sublist.name == 'ol':
+                    item["sub_items"] = self._parse_list_items(sublist)
+                elif sublist.name == 'ul':  # 如果是无序列表
+                    item["sub_items"] = self._parse_list_items(sublist)
+
+            items.append(item)
+        return items
+
+    
+    
+    def _parse_blockquote(self, element) -> Dict:
+        """解析引用块"""
+        return {
+            "type": "blockquote",
+            "text": element.text.strip()
+        }
+    
+    def _parse_table(self, element) -> Dict:
+        """解析表格"""
+        headers = []
+        rows = []
+        
+        header_row = element.find('tr')
+        if header_row:
+            headers = [th.text.strip() for th in header_row.find_all(['th', 'td'])]
+        
+        for tr in element.find_all('tr')[1:]:
+            row = [td.text.strip() for td in tr.find_all('td')]
+            if row:
+                rows.append(row)
+                
+        return {
+            "type": "table",
+            "headers": headers,
+            "rows": rows
+        }
+    
+    def _parse_hr(self, element) -> Dict:
+        """解析分割线"""
+        return {
+            "type": "hr"
+        }
+

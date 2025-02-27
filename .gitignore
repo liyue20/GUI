@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+venv/
+env/
+
+generated_layout.html
+test1.json
+test.json
+.vscode
+generared.html
