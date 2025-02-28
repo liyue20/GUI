@@ -127,7 +127,7 @@ def generate_chart_base64(df, chart_type):
         plt.title("堆叠柱状图", fontproperties=font)
         plt.xlabel(df.columns[0], fontproperties=font)
         plt.ylabel('数量', fontproperties=font)        
-    elif chart_type == "grouped_bar1":
+    elif chart_type == "grouped_bar":
         df = df.set_index(df.columns[0])
         df = df.apply(pd.to_numeric, errors='coerce')
         ax = df.plot(kind='line', figsize=(12, 4), width=0.8, colormap='Set2')
@@ -135,37 +135,33 @@ def generate_chart_base64(df, chart_type):
         ax.set_ylabel("数值", fontproperties=font,fontsize=8) 
         ax.legend(labels=df.columns, loc='upper left', bbox_to_anchor=(1, 1),prop=font,fontsize=8) 
         for container in ax.containers:
-            ax.bar_label(container, fontsize=8, padding=5)  # 设置字体大小和标签位置（padding）
-        ax.spines['top'].set_visible(False)  # 隐藏顶部边框
-        ax.spines['right'].set_visible(False)  # 隐藏右边框
-        ax.spines['left'].set_visible(True)  # 保持左边框
-        ax.spines['bottom'].set_visible(True)  # 保持底部边框
+            ax.bar_label(container, fontsize=8, padding=5)  
+        ax.spines['top'].set_visible(False)  
+        ax.spines['right'].set_visible(False)  
+        ax.spines['left'].set_visible(True)  
+        ax.spines['bottom'].set_visible(True)  
         plt.tight_layout()
         plt.xticks(rotation=45, fontproperties=font)
     elif chart_type == "grouped_line":
         df = df.set_index(df.columns[0])
         df = df.apply(pd.to_numeric, errors='coerce')
-        ax = df.plot(kind='line', figsize=(12, 4), linewidth=1, colormap='Set2')
-        ax.set_xlabel("日期", fontproperties=font, fontsize=8)  # x 轴设置为“日期”
-        ax.set_ylabel("数值", fontproperties=font, fontsize=8)  # y 轴的标签可以固定为“数量”
-        ax.legend(labels=df.columns, loc='upper left', bbox_to_anchor=(1, 1), prop=font, fontsize=8)
+        ax = df.plot(kind='line', figsize=(12, 5), linewidth=1, colormap='Set2')
+        ax.set_xlabel("日期", fontproperties=font, fontsize=12)  
+        ax.set_ylabel("数值", fontproperties=font, fontsize=12)  
+        ax.legend(labels=df.columns, loc='upper left', bbox_to_anchor=(1, 1), prop=font, fontsize=12)
 
-        # 设置线条标签（每个数据点上方显示数值）
         for line in ax.lines:
             yvals = line.get_ydata()
             for i, j in enumerate(yvals):
-                ax.text(line.get_xdata()[i], yvals[i], f'{j:.2f}', fontsize=8, ha='center', va='bottom')
+                ax.text(line.get_xdata()[i], yvals[i], f'{j:.2f}', fontsize=12, ha='center', va='bottom')
 
-        # 隐藏图表的顶部和右边框
-        ax.spines['top'].set_visible(False)  # 隐藏顶部边框
-        ax.spines['right'].set_visible(False)  # 隐藏右边框
-        ax.spines['left'].set_visible(True)  # 保持左边框
-        ax.spines['bottom'].set_visible(True)  # 保持底部边框
+        ax.spines['top'].set_visible(False)  
+        ax.spines['right'].set_visible(False)  
+        ax.spines['left'].set_visible(True)  
+        ax.spines['bottom'].set_visible(True)  
 
-        # 调整布局，避免标签重叠
         plt.tight_layout()
-        # 旋转 x 轴标签（日期），避免重叠
-        plt.xticks(rotation=45, fontproperties=font, fontsize=8)
+        plt.xticks(rotation=45, fontproperties=font, fontsize=12)
 
     elif chart_type == "heatmap":
         plt.figure(figsize=(10, 6))
@@ -187,7 +183,6 @@ def generate_chart_base64(df, chart_type):
 
     plt.tight_layout()
     
-    # 将图表保存到内存缓冲区
     buffer = io.BytesIO()
     plt.savefig(buffer, format="png", bbox_inches="tight", dpi=100)
     plt.close()

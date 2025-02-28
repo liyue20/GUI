@@ -29,8 +29,10 @@ markdown_parser = None
 
 # 路径设置
 current_dir = os.path.dirname(os.path.abspath(__file__))
-layout_model_path = 'f:\\code\\aigui-model-service\\data\\models\\layout\\layoutModel_05.pth'
-
+#layout_model_path = 'f:\\code\\aigui-model-service\\data\\models\\layout\\layoutModel_05.pth'
+layout_model_path = 'f:\\code\\aigui-model-service\\data\\models\\layout\\best_layout_model.pth'
+#layout_model_path = 'f:\\code\\aigui-model-service\\data\\models\\layout\\layoutModel_10_540.16.pth' 
+#layout_model_path = 'f:\\code\\aigui-model-service\\data\\models\\layout\\layoutModel_20_493.10.pth'                 
 # 初始化组件
 def init_components():
     """初始化布局模型和Markdown解析器"""

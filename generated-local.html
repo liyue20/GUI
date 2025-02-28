@@ -9,41 +9,50 @@
 <style>
         /* CSS 变量 */
         :root {
-
-    --color-layout-card-background: #def7df;
-    --color-layout-card-border: #b7e5b9;
-    --color-layout-block-background: #c9edcb;
-    --color-layout-block-border: #a2d8a4;
-    --color-component-title_background-h1: #72bf75;
-    --color-component-title_background-h2: #8ecc91;
-    --color-component-title_background-h3: #add8af;
-    --color-component-title_background-h4: #cee5cf;
-    --color-component-title_background-h5: #e6f2e6;
-    --color-component-subsection-background: #dcf4dd;
-    --color-component-subsection-border: #b3e0b5;
-    --color-component-content-background: #edf9ed;
-    --color-typography-title-h1: #072608;
-    --color-typography-title-h2: #0f3310;
-    --color-typography-title-h3: #193f1b;
-    --color-typography-title-h4: #264c27;
-    --color-typography-title-h5: #355936;
-    --color-typography-text-primary: #0f3310;
-    --color-typography-text-secondary: #264c27;
-    --spacing-xxs: 6px;
-    --spacing-xs: 12px;
-    --spacing-sm: 18px;
-    --spacing-md: 24px;
-    --spacing-lg: 36px;
-    --spacing-xl: 48px;
-    --spacing-xxl: 72px;
-    --font-size-caption: 10px;
-    --font-size-body: 12px;
-    --font-size-subtitle: 14px;
-    --font-size-title: 16px;
-    --font-size-h3: 18px;
-    --font-size-h2: 20px;
-    --font-size-h1: 24px;
-    --font-size-display: 28px;
+    --color-theme-primary-50: #def7f5;
+    --color-theme-primary-100: #c1f2ed;
+    --color-theme-primary-200: #a0e5df;
+    --color-theme-primary-300: #82d8d0;
+    --color-theme-primary-400: #66ccc2;
+    --color-theme-primary-500: #009688;
+    --color-theme-primary-600: #2d998f;
+    --color-theme-primary-700: #197f75;
+    --color-theme-primary-800: #0a665d;
+    --color-theme-primary-900: #004c45;
+    --color-layout-card-background: #def7f5;
+    --color-layout-card-border: #b7e5e1;
+    --color-layout-block-background: #c9ede9;
+    --color-layout-block-border: #a2d8d3;
+    --color-component-title_background-h1: #72bfb8;
+    --color-component-title_background-h2: #8eccc6;
+    --color-component-title_background-h3: #add8d4;
+    --color-component-title_background-h4: #cee5e3;
+    --color-component-title_background-h5: #e6f2f1;
+    --color-component-subsection-background: #dcf4f2;
+    --color-component-subsection-border: #b3e0dc;
+    --color-component-content-background: #edf9f8;
+    --color-typography-title-h1: #072623;
+    --color-typography-title-h2: #0f332f;
+    --color-typography-title-h3: #193f3c;
+    --color-typography-title-h4: #264c48;
+    --color-typography-title-h5: #355955;
+    --color-typography-text-primary: #0f332f;
+    --color-typography-text-secondary: #264c48;
+    --spacing-xxs: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    --font-size-caption: 12px;
+    --font-size-body: 14px;
+    --font-size-subtitle: 16px;
+    --font-size-title: 18px;
+    --font-size-h3: 20px;
+    --font-size-h2: 24px;
+    --font-size-h1: 28px;
+    --font-size-display: 32px;
 }
         
         /* CSS 规则 */
@@ -78,6 +87,7 @@ body {
     border: 1px solid var(--color-layout-block-border);
     border-radius: 8px;
     padding: var(--spacing-block-padding);
+    overflow:auto;
 }
 
 /* 子区块 */
@@ -246,10 +256,24 @@ li {
         ">
 <div class="block" id="block_0" style="
                     position: absolute;
-                    left: 297.25px;
-                    top: 73.73000000000002px;
-                    width: 275.5px;
-                    height: 582.54px;
+                    left: 445.875px;
+                    top: 9.125000000000009px;
+                    width: 413.25px;
+                    height: 338.75px;
+                ">
+<h1 class="title-1">节假日信息</h1>
+<div class="content" style="">
+<p>根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为圣诞节，预计放假天数为1天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。</p>
+</div>
+<div class="subsections-wrapper">
+</div>
+</div>
+<div class="block" id="block_1" style="
+                    position: absolute;
+                    left: 10.875000000000009px;
+                    top: 374.125px;
+                    width: 413.25px;
+                    height: 584.0px;
                 ">
 <h1 class="title-1">请假方案</h1>
 <div class="subsections-wrapper">
@@ -279,12 +303,12 @@ li {
 </div>
 </div>
 </div>
-<div class="block" id="block_1" style="
+<div class="block" id="block_2" style="
                     position: absolute;
-                    left: 7.25px;
-                    top: 73.73000000000002px;
-                    width: 275.5px;
-                    height: 582.54px;
+                    left: 10.875000000000009px;
+                    top: 9.125000000000009px;
+                    width: 413.25px;
+                    height: 342.75px;
                 ; overflow-y: auto; overflow-y: auto;">
 <h1 class="title-1">请假日期</h1>
 <div class="content" style="font-size: 13px; padding: 4px;">
@@ -326,37 +350,37 @@ li {
 <div class="subsections-wrapper">
 </div>
 </div>
-<div class="block" id="block_2" style="
+<div class="block" id="block_3" style="
                     position: absolute;
-                    left: 577.25px;
-                    top: 73.73000000000002px;
-                    width: 282.75px;
-                    height: 582.54px;
-                ; overflow-y: auto; overflow-y: auto;">
+                    left: 445.875px;
+                    top: 374.125px;
+                    width: 413.25px;
+                    height: 544.0px;
+                ">
 <h1 class="title-1">旅游建议</h1>
-<div class="content" style="font-size: 13px; padding: 4px;">
+<div class="content" style="">
 <p>根据您的假期时长，查询了近期适合出游的地点，建议前往以下地区及景点：</p>
 </div>
 <div class="subsections-wrapper">
-<div class="subsection" style="padding: 4px;">
-<h4 class="title-4" style="font-size: 13px;">北京 - 北京市 100KM</h4>
-<div class="content" style="font-size: 13px; padding: 4px;">
+<div class="subsection" style="">
+<h4 class="title-4">北京 - 北京市 100KM</h4>
+<div class="content" style="">
 <ul>
 <li>故宫博物院、颐和园、天安门广场</li>
 </ul>
 </div>
 </div>
-<div class="subsection" style="padding: 4px;">
-<h4 class="title-4" style="font-size: 13px;">上海 - 上海市 1000KM</h4>
-<div class="content" style="font-size: 13px; padding: 4px;">
+<div class="subsection" style="">
+<h4 class="title-4">上海 - 上海市 1000KM</h4>
+<div class="content" style="">
 <ul>
 <li>外滩、东方明珠、上海迪士尼乐园</li>
 </ul>
 </div>
 </div>
-<div class="subsection" style="padding: 4px;">
-<h4 class="title-4" style="font-size: 13px;">成都 - 四川省 1500KM</h4>
-<div class="content" style="font-size: 13px; padding: 4px;">
+<div class="subsection" style="">
+<h4 class="title-4">成都 - 四川省 1500KM</h4>
+<div class="content" style="">
 <ul>
 <li>宽窄巷子、武侯祠、锦里古街"</li>
 </ul>
