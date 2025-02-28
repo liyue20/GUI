@@ -1,0 +1,19 @@
+2025-02-28 10:06:41,393 [INFO] - 主程序启动
+2025-02-28 10:08:27,827 [INFO] - Episode 10, Reward: 275.46, Steps: 10, Epsilon: 0.088, Temperature: 0.875
+2025-02-28 10:09:31,684 [INFO] - Episode 20, Reward: 271.14, Steps: 10, Epsilon: 0.075, Temperature: 0.750
+2025-02-28 10:11:05,604 [INFO] - Episode 30, Reward: 495.91, Steps: 10, Epsilon: 0.056, Temperature: 0.562
+2025-02-28 10:12:09,426 [INFO] - Episode 40, Reward: 277.28, Steps: 10, Epsilon: 0.044, Temperature: 0.500
+2025-02-28 10:13:43,325 [INFO] - Episode 50, Reward: 497.76, Steps: 10, Epsilon: 0.025, Temperature: 0.500
+2025-02-28 10:14:48,644 [INFO] - Episode 60, Reward: 500.27, Steps: 10, Epsilon: 0.013, Temperature: 0.500
+2025-02-28 10:15:21,595 [INFO] - Episode 64, Reward: 276.20, Steps: 10, Epsilon: 0.010, Temperature: 0.500
+2025-02-28 10:15:22,104 [INFO] - Best model saved: f:\code\aigui-model-service\data\models\layout\best_layout_model.pth
+2025-02-28 10:15:22,111 [INFO] - Episode 0 模型已保存: f:\code\aigui-model-service\data\models\layout\layoutModel_0_563.78.pth
+2025-02-28 10:16:56,338 [INFO] - Episode 10, Reward: 503.46, Steps: 10, Epsilon: 0.088, Temperature: 0.875
+2025-02-28 10:18:01,718 [INFO] - Episode 20, Reward: 492.59, Steps: 10, Epsilon: 0.075, Temperature: 0.750
+2025-02-28 10:19:40,995 [INFO] - Episode 30, Reward: 534.17, Steps: 10, Epsilon: 0.056, Temperature: 0.562
+2025-02-28 10:20:55,073 [INFO] - Episode 40, Reward: 489.39, Steps: 10, Epsilon: 0.044, Temperature: 0.500
+2025-02-28 10:22:43,109 [INFO] - Episode 50, Reward: 276.20, Steps: 10, Epsilon: 0.025, Temperature: 0.500
+2025-02-28 10:23:54,545 [INFO] - Episode 60, Reward: 499.26, Steps: 10, Epsilon: 0.013, Temperature: 0.500
+2025-02-28 10:24:29,361 [INFO] - Episode 64, Reward: 277.28, Steps: 10, Epsilon: 0.010, Temperature: 0.500
+2025-02-28 10:26:13,158 [INFO] - Episode 10, Reward: 496.79, Steps: 10, Epsilon: 0.088, Temperature: 0.875
+2025-02-28 10:27:20,704 [INFO] - Episode 20, Reward: 497.62, Steps: 10, Epsilon: 0.075, Temperature: 0.750

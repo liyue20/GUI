@@ -1,0 +1,7 @@
+2025-02-27 18:51:35,114 [INFO] - 主程序启动
+2025-02-27 18:52:18,374 [INFO] - Episode 5, Reward: 514.04, Steps: 10, Epsilon: 0.020, Temperature: 0.500
+2025-02-27 18:52:18,624 [INFO] - Episode 0 模型已保存: f:\code\aigui-model-service\data\models\layout\layoutModel_0_504.21.pth
+2025-02-27 18:52:57,337 [INFO] - Episode 5, Reward: 520.59, Steps: 10, Epsilon: 0.020, Temperature: 0.500
+2025-02-27 18:52:57,588 [INFO] - Episode 1 模型已保存: f:\code\aigui-model-service\data\models\layout\layoutModel_1_471.22.pth
+2025-02-27 18:53:35,416 [INFO] - Episode 5, Reward: 271.38, Steps: 10, Epsilon: 0.020, Temperature: 0.500
+2025-02-27 18:53:35,651 [INFO] - Episode 2 模型已保存: f:\code\aigui-model-service\data\models\layout\layoutModel_2_513.47.pth
