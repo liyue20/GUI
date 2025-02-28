@@ -70,7 +70,6 @@ class BlockGenerator:
             elif not isinstance(block.get("position_y"), (int, float)):
                 block["position_y"] = 0  # 默认值
         
-                # 确保 `position_y` 是数值类型
         # 确保 `position_x` 是数值类型
         for block in blocks:
             if isinstance(block.get("position_x"), str) and block["position_x"].replace('.', '').isdigit():
@@ -99,14 +98,14 @@ class BlockGenerator:
             # 找到最左部的行
             left_row_x = min(block["position_x"] for block in blocks)
             
-            # 找到属于顶部行的 blocks
+            # 找到属于左部行的 blocks
             left_row_blocks = [block for block in blocks if block["position_x"] ==  left_row_x]
         
-            # 调整顶部 blocks 的 x 坐标
+            # 调整左部 blocks 的 x 坐标
             for block in left_row_blocks:
                 block["position_x"] = min(20, block["position_x"] )
             
-            # 找到最右部的行
+            # 找到最右部的列
             right_row_x = max(block["position_x"] for block in blocks)
             
             # 找到属于最右行的 blocks

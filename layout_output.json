@@ -2,12 +2,12 @@
     {
         "id": "block_0",
         "index": 0,
-        "min_width": 294.1259501665652,
+        "min_width": 330.71236359870693,
         "min_height": 220.0,
-        "position_x": 297.25,
+        "position_x": 445.875,
         "position_y": 9.125000000000009,
-        "act_width": 275.5,
-        "act_height": 346.75,
+        "act_width": 413.25,
+        "act_height": 338.75,
         "content": {
             "title": {
                 "text": "节假日信息",
@@ -28,10 +28,10 @@
         "index": 1,
         "min_width": 288,
         "min_height": 584.0,
-        "position_x": 584.5,
-        "position_y": 9.125000000000009,
-        "act_width": 275.5,
-        "act_height": 346.75,
+        "position_x": 10.875000000000009,
+        "position_y": 374.125,
+        "act_width": 413.25,
+        "act_height": 584.0,
         "content": {
             "title": {
                 "text": "请假方案",
@@ -100,10 +100,10 @@
         "index": 2,
         "min_width": 128,
         "min_height": 100.0,
-        "position_x": 7.250000000000006,
+        "position_x": 10.875000000000009,
         "position_y": 9.125000000000009,
-        "act_width": 275.5,
-        "act_height": 346.75,
+        "act_width": 413.25,
+        "act_height": 342.75,
         "content": {
             "title": {
                 "text": "请假日期",
@@ -155,10 +155,10 @@
         "index": 3,
         "min_width": 392,
         "min_height": 544.0,
-        "position_x": 21.750000000000018,
+        "position_x": 445.875,
         "position_y": 374.125,
-        "act_width": 846.5,
-        "act_height": 346.75,
+        "act_width": 413.25,
+        "act_height": 544.0,
         "content": {
             "title": {
                 "text": "旅游建议",

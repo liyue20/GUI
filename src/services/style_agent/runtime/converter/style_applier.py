@@ -98,6 +98,7 @@ body {
     border: 1px solid var(--color-layout-block-border);
     border-radius: 8px;
     padding: var(--spacing-block-padding);
+    overflow:auto;
 }
 
 /* 子区块 */
