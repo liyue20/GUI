@@ -6,196 +6,77 @@
     },
     "content": [
       {
-        "type": "p",
-        "text": "根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为\"双11\"，预计放假天数为\"1\"天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。"
+        "type": "ol",
+        "items": [
+          {
+            "text": "第一项",
+            "sub_items": [
+              {
+                "text": "无序子项1",
+                "sub_items": [],
+                "list_type": "ol",
+                "level": 1
+              },
+              {
+                "text": "无序子项2",
+                "sub_items": [
+                  {
+                    "text": "有序子项1",
+                    "sub_items": [],
+                    "list_type": "ol",
+                    "level": 2
+                  },
+                  {
+                    "text": "有序子项2",
+                    "sub_items": [],
+                    "list_type": "ol",
+                    "level": 2
+                  }
+                ],
+                "list_type": "ol",
+                "level": 1
+              }
+            ],
+            "list_type": "ol",
+            "level": 0
+          },
+          {
+            "text": "第二项",
+            "sub_items": [
+              {
+                "text": "有序子项1",
+                "sub_items": [
+                  {
+                    "text": "无序孙项1",
+                    "sub_items": [],
+                    "list_type": "ul",
+                    "level": 2
+                  },
+                  {
+                    "text": "无序孙项2",
+                    "sub_items": [],
+                    "list_type": "ul",
+                    "level": 2
+                  }
+                ],
+                "list_type": "ol",
+                "level": 1
+              },
+              {
+                "text": "有序子项2",
+                "sub_items": [],
+                "list_type": "ol",
+                "level": 1
+              }
+            ],
+            "list_type": "ol",
+            "level": 0
+          }
+        ],
+        "list_level": 0
       }
     ],
     "subsections": [],
-    "type": "section"
-  },
-  {
-    "title": {
-      "text": "请假方案",
-      "level": 1
-    },
-    "content": [],
-    "subsections": [
-      {
-        "title": {
-          "text": "请假理由：",
-          "level": 4
-        },
-        "content": [
-          {
-            "type": "p",
-            "text": "为了调整身心，提高工作效率，特申请调休。"
-          }
-        ],
-        "type": "subsection"
-      },
-      {
-        "title": {
-          "text": "请假开始时间：",
-          "level": 4
-        },
-        "content": [
-          {
-            "type": "p",
-            "text": "2024-11-27 09:00"
-          }
-        ],
-        "type": "subsection"
-      },
-      {
-        "title": {
-          "text": "请假结束时间：",
-          "level": 4
-        },
-        "content": [
-          {
-            "type": "p",
-            "text": "2024-11-31 18:00"
-          }
-        ],
-        "type": "subsection"
-      },
-      {
-        "title": {
-          "text": "请假时长：",
-          "level": 4
-        },
-        "content": [
-          {
-            "type": "p",
-            "text": "5天"
-          }
-        ],
-        "type": "subsection"
-      }
-    ],
-    "type": "section"
-  },
-  {
-    "title": {
-      "text": "请假日期",
-      "level": 1
-    },
-    "content": [
-      {
-        "type": "table",
-        "headers": [
-          "日期",
-          "星期",
-          "备注"
-        ],
-        "rows": [
-          [
-            "2024-11-27",
-            "周日",
-            "请假"
-          ],
-          [
-            "2024-11-28",
-            "周一",
-            "请假"
-          ],
-          [
-            "2024-11-29",
-            "周二",
-            "请假"
-          ],
-          [
-            "2024-11-30",
-            "周三",
-            "请假"
-          ],
-          [
-            "2024-11-31",
-            "周四",
-            "请假"
-          ]
-        ]
-      }
-    ],
-    "subsections": [],
-    "type": "section"
-  },
-  {
-    "title": {
-      "text": "旅游建议",
-      "level": 1
-    },
-    "content": [
-      {
-        "type": "p",
-        "text": "根据您的假期时长，查询了近期适合出游的地点，建议前往以下地区及景点："
-      }
-    ],
-    "subsections": [
-      {
-        "title": {
-          "text": "北京 - 北京市 100KM",
-          "level": 4
-        },
-        "content": [
-          {
-            "type": "ul",
-            "items": [
-              {
-                "text": "故宫博物院、颐和园、天安门广场",
-                "sub_items": [],
-                "list_type": "ul",
-                "level": 0
-              }
-            ],
-            "list_level": 0
-          }
-        ],
-        "type": "subsection"
-      },
-      {
-        "title": {
-          "text": "上海 - 上海市 1000KM",
-          "level": 4
-        },
-        "content": [
-          {
-            "type": "ul",
-            "items": [
-              {
-                "text": "外滩、东方明珠、上海迪士尼乐园",
-                "sub_items": [],
-                "list_type": "ul",
-                "level": 0
-              }
-            ],
-            "list_level": 0
-          }
-        ],
-        "type": "subsection"
-      },
-      {
-        "title": {
-          "text": "成都 - 四川省 1500KM",
-          "level": 4
-        },
-        "content": [
-          {
-            "type": "ul",
-            "items": [
-              {
-                "text": "宽窄巷子、锦里、熊猫基地",
-                "sub_items": [],
-                "list_type": "ul",
-                "level": 0
-              }
-            ],
-            "list_level": 0
-          }
-        ],
-        "type": "subsection"
-      }
-    ],
     "type": "section"
   }
 ]
