@@ -20,7 +20,7 @@ class HTMLContentAdjuster:
     def __init__(self):
         # 样式配置
         self.style_config = {
-            'min_font_size': 13,  # 最小字体大小（px）
+            'min_font_size': 14,  # 最小字体大小（px）
             'min_spacing': 4,     # 最小间距（px）
             'scale_steps': [1, 0.98, 0.96, 0.94, 0.92, 0.9, 0.88, 0.86, 0.84, 0.82, 0.8, 0.78, 0.76, 0.74, 0.72, 0.7, 0.6, 0.5]# 缩放步骤
         }
@@ -30,11 +30,11 @@ class HTMLContentAdjuster:
             'div': 30,        # 基础容器
             'p': 40,          # 段落
             'section': 35,    # 区域容器
-            'h1': 100,         # 一级标题
-            'h2': 90,         # 二级标题
-            'h3': 80,         # 三级标题
-            'h4': 70,         # 四级标题
-            'h5': 60,         # 五级标题
+            'h1': 60,         # 一级标题
+            'h2': 50,         # 二级标题
+            'h3': 45,         # 三级标题
+            'h4': 40,         # 四级标题
+            'h5': 35,         # 五级标题
             'h6': 30,         # 六级标题
             'ul': 25,         # 无序列表容器
             'ol': 25,         # 有序列表容器
@@ -184,7 +184,7 @@ class HTMLContentAdjuster:
     def adjust_block_styles(self, block, scale: float) -> None:
         """调整块内元素的样式"""
         # 调整字体大小
-        for text_element in block.select('.content, .title-2, .title-3, .title-4'):
+        for text_element in block.select('.title-2, .title-3, .title-4'):
             style = self.parse_style(text_element.get('style', ''))
             current_font_size = self.get_numeric_value(style.get('font-size', '16'))
             new_font_size = max(self.style_config['min_font_size'], int(current_font_size * scale))
@@ -195,10 +195,10 @@ class HTMLContentAdjuster:
             text_element['style'] = self._dict_to_style_string(style_dict)
 
         # 调整间距
-        for element in block.select('.content, .subsection'):
+        for element in block.select('.content, .title-1, .title-2, .title-3, .title-4, .subsection'):
             style = self.parse_style(element.get('style', ''))
             current_padding = self.get_numeric_value(style.get('padding', '6'))
-            new_padding = max(self.style_config['min_spacing'], int(current_padding * scale))
+            new_padding = max(self.style_config['min_spacing'], int(current_padding * scale*0.8))
 
             # 更新样式字典
             style_dict = self._parse_style_to_dict(element.get('style', ''))
@@ -226,23 +226,6 @@ class HTMLContentAdjuster:
                 # 同时更新img标签的width和height属性
                 img_element['width'] = str(new_width)
                 img_element['height'] = str(new_height)
-            
-        
-    def adjust_block_styles_old(self, block, scale: float) -> None:
-        """调整块内元素的样式"""
-        # 调整字体大小
-        for text_element in block.select('.content,.title-1, .title-2, .title-3, .title-4'):
-            style = self.parse_style(text_element.get('style', ''))
-            current_font_size = self.get_numeric_value(style.get('font-size', '16'))
-            new_font_size = max(self.style_config['min_font_size'], int(current_font_size * scale))
-            text_element['style'] = f"{text_element.get('style', '').rstrip(';')}; font-size: {new_font_size}px;"
-
-        # 调整间距
-        for element in block.select('.content, .subsection'):
-            style = self.parse_style(element.get('style', ''))
-            current_padding = self.get_numeric_value(style.get('padding', '6'))
-            new_padding = max(self.style_config['min_spacing'], int(current_padding * scale))
-            element['style'] = f"{element.get('style', '').rstrip(';')}; padding: {new_padding}px;"
 
     def add_overflow_styles(self, block) -> None:
         """添加溢出处理的样式"""
@@ -276,7 +259,7 @@ class HTMLContentAdjuster:
             head.append(style_tag)
             soup.insert(0, head)
 
-    def process_html(self, html_content: str) -> str:
+    def process_html(self, html_content: str, scale_value: float) -> str:
         """处理HTML内容"""
         logging.info("开始处理HTML内容")
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -333,12 +316,158 @@ class HTMLContentAdjuster:
             else:
                 logging.debug(f"块 {idx} 不需要调整")
 
+            # 在溢出处理后应用传入的scale_value
+            self.adjust_block_styles(block, scale_value)
+
         # 添加自定义滚动条样式
         self.add_custom_scrollbar_style(soup)
         logging.info("HTML处理完成")
         return str(soup)
 
 
+
+
+class HTMLContentAdjuster_old:
+    def __init__(self):
+        # 样式配置
+        self.style_config = {
+            'min_font_size': 12,  # 最小字体大小（px）
+            'min_spacing': 4,    # 最小间距（px）
+            'scale_steps': [1, 0.95,0.9, 0.8, 0.79, 0.76,0.7,0.6, 0.5]  # 缩放步骤
+        }
+        
+        # 内容权重配置（用于估算内容量）
+        self.content_weights = {
+            'p': 50,          # 段落基础权重
+            'li': 40,         # 列表项基础权重
+            'table': 100,     # 表格基础权重
+            'tr': 80,         # 表格行权重
+            'h1': 40,         # 一级标题权重
+            'h2': 35,         # 二级标题权重
+            'h3': 30,         # 三级标题权重
+            'h4': 25,         # 四级标题权重
+        }
+
+    def calculate_content_weight(self, element) -> int:
+        """计算元素内容的权重"""
+        total_weight = 0
+        
+        # 如果是标签元素（Tag），先处理文本内容
+        if isinstance(element, Tag):
+            # 计算标签中的文本内容的权重
+            text_content = element.get_text(strip=True)
+            total_weight += len(text_content) * 2
+            
+            # 添加元素本身的基础权重
+            tag_name = element.name.lower() if element.name else ''
+            total_weight += self.content_weights.get(tag_name, 0)
+            
+            # 递归计算子元素的权重
+            for child in element.children:
+                if isinstance(child, Tag):  # 确保是标签元素
+                    total_weight += self.calculate_content_weight(child)
+                elif isinstance(child, NavigableString):  # 处理文本节点
+                    total_weight += len(child.strip())  # 可以根据需要调整文本节点的权重
+                    
+        elif isinstance(element, NavigableString):
+            # 如果是纯文本节点，计算文本长度的权重
+            total_weight += len(element.strip()) * 2  # 或者其他的加权方式
+    
+        return total_weight
+
+    def get_block_dimensions(self, block) -> Tuple[float, float]:
+        """获取块的宽度和高度"""
+        style = block.get('style', '')
+        width = float(re.search(r'width:\s*([\d.]+)px', style).group(1)) if re.search(r'width:\s*([\d.]+)px', style) else 0
+        height = float(re.search(r'height:\s*([\d.]+)px', style).group(1)) if re.search(r'height:\s*([\d.]+)px', style) else 0
+        return width, height
+
+    def estimate_content_overflow(self, block_dimensions: Tuple[float, float], content_weight: int) -> bool:
+        """估算内容是否会溢出"""
+        width, height = block_dimensions
+        # 估算每个像素可以容纳的内容权重
+        pixel_capacity = (width * height) / 100  # 假设每100平方像素可以容纳1个权重单位
+        return content_weight > pixel_capacity
+
+    def add_overflow_styles(self, block) -> None:
+        """添加溢出处理的样式"""
+        current_style = block.get('style', '')
+        # 添加滚动条样式，保持原有的定位样式
+        new_style = current_style.rstrip(';') + '; overflow-y: auto;'
+        block['style'] = new_style
+
+    def adjust_block_styles(self, block, scale: float) -> None:
+        """调整块内元素的样式"""
+        # 调整字体大小
+        for text_element in block.select('.content,.title-2, .title-3'):
+            current_style = text_element.get('style', '') or ''
+            font_size = f"font-size: {max(self.style_config['min_font_size'], int(16 * scale))}px;"
+            new_style = current_style + font_size
+            text_element['style'] = new_style
+
+        # 调整间距
+        for element in block.select('.content, .subsection'):
+            current_style = element.get('style', '') or ''
+            padding = f"padding: {max(self.style_config['min_spacing'], int(6 * scale))}px;"
+            new_style = current_style + padding
+            element['style'] = new_style
+
+    def process_html(self, html_content: str) -> str:
+        """处理HTML内容"""
+        soup = BeautifulSoup(html_content, 'html.parser')
+        blocks = soup.select('.block')
+        
+        for block in blocks:
+            # 获取块的尺寸
+            dimensions = self.get_block_dimensions(block)
+            
+            # 计算内容权重
+            content_weight = self.calculate_content_weight(block)
+            
+            # 检查是否需要处理溢出
+            if self.estimate_content_overflow(dimensions, content_weight):
+                # 尝试通过缩放解决溢出
+                overflow_resolved = False
+                for scale in self.style_config['scale_steps']:
+                    self.adjust_block_styles(block, scale)
+                    # 重新计算调整后的内容权重
+                    adjusted_weight = content_weight * scale
+                    if not self.estimate_content_overflow(dimensions, adjusted_weight):
+                        overflow_resolved = True
+                        break
+                
+                # 如果缩放后仍然溢出，添加滚动条
+                if not overflow_resolved:
+                    self.add_overflow_styles(block)
+        
+        return str(soup)
+
+    def add_custom_scrollbar_style(self, soup) -> None:
+        """添加自定义滚动条样式"""
+        style_tag = soup.new_tag('style')
+        style_tag.string = """
+            .block::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            .block::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 3px;
+            }
+            .block::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 3px;
+            }
+            .block::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        """
+        # 将样式标签添加到head中
+        soup.head.append(style_tag)
+
+
+
+        
 class HTMLContentAdjuster_script:
     def __init__(self):
         # 样式配置
@@ -679,4 +808,3 @@ class HTMLContentAdjuster_script:
         
         logging.info("HTML处理完成")
         return str(soup)
-

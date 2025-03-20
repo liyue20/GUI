@@ -1,8 +1,9 @@
 from typing import Dict, Any, Optional
-from .config import ColorConfig, SpacingConfig, TypographyConfig
-from .generators import ColorGenerator, SpacingGenerator, TypographyGenerator
+from .config import ColorConfig, SpacingConfig, TypographyConfig, AnimationConfig
+from .generators import ColorGenerator, SpacingGenerator, TypographyGenerator, AnimationGenerator
 from .utils.style_preset_manager import StylePresetManager
-
+from .generators.block_style_generator import BlockStyleGenerator
+from .config.block_style_config import BlockStyleConfig
 class StyleRuleGenerator:
     """样式规则生成器"""
     
@@ -44,11 +45,13 @@ class StyleRuleGenerator:
         self.color_config = ColorConfig(theme_color, color_preset)
         self.spacing_config = SpacingConfig(spacing_preset)
         self.typography_config = TypographyConfig(typography_preset)
-        
+        self.animation_config = AnimationConfig()
         # 初始化生成器
         self.color_generator = ColorGenerator(self.color_config)
-        self.spacing_generator = SpacingGenerator(self.spacing_config)
+        self.spacing_generator = SpacingGenerator(self.spacing_config, self.typography_config.TYPOGRAPHY_SYSTEM['base_size'])
         self.typography_generator = TypographyGenerator(self.typography_config)
+        self.animation_generator = AnimationGenerator(self.animation_config)
+        self.block_style_generator = BlockStyleGenerator(BlockStyleConfig())
     
     def generate(self) -> Dict[str, Any]:
         """生成完整的样式规则"""
@@ -75,11 +78,16 @@ class StyleRuleGenerator:
             color_rules = self.color_generator.generate(self.layout_info)
             spacing_rules = self.spacing_generator.generate(self.layout_info)
             typography_rules = self.typography_generator.generate(self.layout_info)
+            block_style = self.block_style_generator.generate(self.layout_info)
+            # 生成动效规则
+            animation_rules = self.animation_generator.generate(self.layout_info)
             
             return {
                 "color": color_rules,
                 "spacing": spacing_rules,
-                "typography": typography_rules
+                "typography": typography_rules,
+                "animation": animation_rules,
+                "block_style": block_style
             }
             
         except Exception as e:
@@ -256,7 +264,7 @@ body {{
     font-weight: var(--font-weight-caption);
 }}
 
-/* 图片容��� */
+/* 图片容器 */
 .image-wrapper {{
     margin: var(--spacing-md) 0;
     border-radius: 4px;

@@ -2,12 +2,12 @@
     {
         "id": "block_0",
         "index": 0,
-        "min_width": 330.71236359870693,
-        "min_height": 220.0,
+        "min_width": 216.39150974842156,
+        "min_height": 292.0,
         "position_x": 445.875,
-        "position_y": 9.125000000000009,
+        "position_y": 8.750000000000007,
         "act_width": 413.25,
-        "act_height": 338.75,
+        "act_height": 332.5,
         "content": {
             "title": {
                 "text": "节假日信息",
@@ -16,7 +16,7 @@
             "content": [
                 {
                     "type": "p",
-                    "text": "根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为圣诞节，预计放假天数为1天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。"
+                    "text": "根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为\"双11\"，预计放假天数为\"1\"天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。"
                 }
             ],
             "type": "section",
@@ -26,12 +26,12 @@
     {
         "id": "block_1",
         "index": 1,
-        "min_width": 288,
-        "min_height": 584.0,
+        "min_width": 228.23649501511642,
+        "min_height": 656.0,
         "position_x": 10.875000000000009,
-        "position_y": 374.125,
+        "position_y": 358.75,
         "act_width": 413.25,
-        "act_height": 584.0,
+        "act_height": 332.5,
         "content": {
             "title": {
                 "text": "请假方案",
@@ -48,7 +48,7 @@
                     "content": [
                         {
                             "type": "p",
-                            "text": "个人健康与家庭事务"
+                            "text": "为了调整身心，提高工作效率，特申请调休。"
                         }
                     ],
                     "type": "subsection"
@@ -61,7 +61,7 @@
                     "content": [
                         {
                             "type": "p",
-                            "text": "2024-12-23 09:00"
+                            "text": "2024-11-27 09:00"
                         }
                     ],
                     "type": "subsection"
@@ -74,7 +74,7 @@
                     "content": [
                         {
                             "type": "p",
-                            "text": "2024-12-27 18:00"
+                            "text": "2024-11-31 18:00"
                         }
                     ],
                     "type": "subsection"
@@ -101,9 +101,9 @@
         "min_width": 128,
         "min_height": 100.0,
         "position_x": 10.875000000000009,
-        "position_y": 9.125000000000009,
+        "position_y": 8.750000000000007,
         "act_width": 413.25,
-        "act_height": 342.75,
+        "act_height": 332.5,
         "content": {
             "title": {
                 "text": "请假日期",
@@ -119,28 +119,28 @@
                     ],
                     "rows": [
                         [
-                            "12月23日",
+                            "2024-11-27",
+                            "周日",
+                            "请假"
+                        ],
+                        [
+                            "2024-11-28",
                             "周一",
                             "请假"
                         ],
                         [
-                            "12月24日",
+                            "2024-11-29",
                             "周二",
                             "请假"
                         ],
                         [
-                            "12月25日",
+                            "2024-11-30",
                             "周三",
                             "请假"
                         ],
                         [
-                            "12月26日",
+                            "2024-11-31",
                             "周四",
-                            "请假"
-                        ],
-                        [
-                            "12月27日",
-                            "周五",
                             "请假"
                         ]
                     ]
@@ -153,12 +153,12 @@
     {
         "id": "block_3",
         "index": 3,
-        "min_width": 392,
-        "min_height": 544.0,
-        "position_x": 445.875,
-        "position_y": 374.125,
-        "act_width": 413.25,
-        "act_height": 544.0,
+        "min_width": 290.0,
+        "min_height": 724.0,
+        "position_x": 435.875,
+        "position_y": 358.75,
+        "act_width": 424.125,
+        "act_height": 332.5,
         "content": {
             "title": {
                 "text": "旅游建议",
@@ -183,9 +183,12 @@
                             "items": [
                                 {
                                     "text": "故宫博物院、颐和园、天安门广场",
-                                    "sub_items": []
+                                    "sub_items": [],
+                                    "list_type": "ul",
+                                    "level": 0
                                 }
-                            ]
+                            ],
+                            "list_level": 0
                         }
                     ],
                     "type": "subsection"
@@ -201,9 +204,12 @@
                             "items": [
                                 {
                                     "text": "外滩、东方明珠、上海迪士尼乐园",
-                                    "sub_items": []
+                                    "sub_items": [],
+                                    "list_type": "ul",
+                                    "level": 0
                                 }
-                            ]
+                            ],
+                            "list_level": 0
                         }
                     ],
                     "type": "subsection"
@@ -218,10 +224,13 @@
                             "type": "ul",
                             "items": [
                                 {
-                                    "text": "宽窄巷子、武侯祠、锦里古街\"",
-                                    "sub_items": []
+                                    "text": "宽窄巷子、锦里、熊猫基地",
+                                    "sub_items": [],
+                                    "list_type": "ul",
+                                    "level": 0
                                 }
-                            ]
+                            ],
+                            "list_level": 0
                         }
                     ],
                     "type": "subsection"

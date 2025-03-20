@@ -1,68 +1,192 @@
 
 <!DOCTYPE html>
 
-<html lang="zh-CN">
+<html class="style-scope-8141" lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>aigui-generator-html</title>
 <style>
         /* CSS 变量 */
-        :root {
-    --color-theme-primary-50: #def7f5;
-    --color-theme-primary-100: #c1f2ed;
-    --color-theme-primary-200: #a0e5df;
-    --color-theme-primary-300: #82d8d0;
-    --color-theme-primary-400: #66ccc2;
-    --color-theme-primary-500: #009688;
-    --color-theme-primary-600: #2d998f;
-    --color-theme-primary-700: #197f75;
-    --color-theme-primary-800: #0a665d;
-    --color-theme-primary-900: #004c45;
-    --color-layout-card-background: #def7f5;
-    --color-layout-card-border: #b7e5e1;
-    --color-layout-block-background: #c9ede9;
-    --color-layout-block-border: #a2d8d3;
-    --color-component-title_background-h1: #72bfb8;
-    --color-component-title_background-h2: #8eccc6;
-    --color-component-title_background-h3: #add8d4;
-    --color-component-title_background-h4: #cee5e3;
-    --color-component-title_background-h5: #e6f2f1;
-    --color-component-subsection-background: #dcf4f2;
-    --color-component-subsection-border: #b3e0dc;
-    --color-component-content-background: #edf9f8;
-    --color-typography-title-h1: #072623;
-    --color-typography-title-h2: #0f332f;
-    --color-typography-title-h3: #193f3c;
-    --color-typography-title-h4: #264c48;
-    --color-typography-title-h5: #355955;
-    --color-typography-text-primary: #0f332f;
-    --color-typography-text-secondary: #264c48;
-    --spacing-xxs: 4px;
-    --spacing-xs: 8px;
-    --spacing-sm: 12px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
-    --spacing-xxl: 48px;
-    --font-size-caption: 12px;
-    --font-size-body: 14px;
-    --font-size-subtitle: 16px;
-    --font-size-title: 18px;
-    --font-size-h3: 20px;
-    --font-size-h2: 24px;
-    --font-size-h1: 28px;
-    --font-size-display: 32px;
+        .style-scope-8141{
+    --color-theme-primary-50: #f7e1de;
+    --color-theme-primary-100: #edc3bd;
+    --color-theme-primary-200: #e2a59e;
+    --color-theme-primary-300: #d88982;
+    --color-theme-primary-400: #cc6d66;
+    --color-theme-primary-500: #F44336;
+    --color-theme-primary-600: #a53c3a;
+    --color-theme-primary-700: #8c2325;
+    --color-theme-primary-800: #72111a;
+    --color-theme-primary-900: #590412;
+    --color-theme-secondary-50: #f7e9de;
+    --color-theme-secondary-100: #edd4bd;
+    --color-theme-secondary-200: #e2c19e;
+    --color-theme-secondary-300: #d8b082;
+    --color-theme-secondary-400: #cc9e66;
+    --color-theme-secondary-500: #f4a236;
+    --color-theme-secondary-600: #a5773a;
+    --color-theme-secondary-700: #8c5f23;
+    --color-theme-secondary-800: #724911;
+    --color-theme-secondary-900: #593504;
+    --color-theme-accent-50: #f7e6de;
+    --color-theme-accent-100: #edcdbd;
+    --color-theme-accent-200: #e2b59e;
+    --color-theme-accent-300: #d8a082;
+    --color-theme-accent-400: #cc8b66;
+    --color-theme-accent-500: #f47c36;
+    --color-theme-accent-600: #a5623a;
+    --color-theme-accent-700: #8c4b23;
+    --color-theme-accent-800: #723711;
+    --color-theme-accent-900: #592604;
+    --color-accent-info: #f47c36;
+    --color-accent-success: #2ccc28;
+    --color-accent-warning: #e59216;
+    --color-accent-error: #cc2828;
+    --color-layout-card-background: #f7e1de;
+    --color-layout-card-border: #e2a59e;
+    --color-layout-block-background: #f2dfcd;
+    --color-layout-block-border: #d8bfa2;
+    --color-component-title_background-h1: #e0584e;
+    --color-component-title_background-h2: #d88982;
+    --color-component-title_background-h3: #e5c4a0;
+    --color-component-title_background-h4: #f2d9c1;
+    --color-component-title_background-h5: #e5c9c4;
+    --color-component-subsection-background: #f4dcd0;
+    --color-component-subsection-border: #d8ae97;
+    --color-component-content-background: #f9eeed;
+    --color-typography-title-h1: #3f020c;
+    --color-typography-title-h2: #650f17;
+    --color-typography-title-h3: #724d1c;
+    --color-typography-title-h4: #7e5b2c;
+    --color-typography-title-h5: #9a2a22;
+    --color-typography-text-primary: #000000;
+    --color-typography-text-secondary: #7f561f;
+    --color-accent-info: #f47c36;
+    --color-accent-success: #2ccc28;
+    --color-accent-warning: #e59216;
+    --color-accent-error: #cc2828;
+    --spacing-xxs: 4.800000000000001px;
+    --spacing-xs: 9.600000000000001px;
+    --spacing-sm: 14.4px;
+    --spacing-md: 19.200000000000003px;
+    --spacing-lg: 28.8px;
+    --spacing-xl: 38.400000000000006px;
+    --spacing-xxl: 57.6px;
+    --font-size-caption: 10.0px;
+    --font-size-body: 12.0px;
+    --font-size-subtitle: 14.0px;
+    --font-size-title: 16.0px;
+    --font-size-h4: 16.0px;
+    --font-size-h3: 18.0px;
+    --font-size-h2: 20.0px;
+    --font-size-h1: 24.0px;
+    --font-size-display: 28.0px;
+    --animation-duration-fast: 0.4s;
+    --animation-duration-normal: 0.6s;
+    --animation-duration-slow: 0.8s;
+    --animation-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
+    --animation-easing-decelerate: cubic-bezier(0.0, 0, 0.2, 1);
+    --animation-easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
         
         /* CSS 规则 */
         
+@keyframes scaleIn {
+    
+                    0% {
+                        opacity: 0;
+                        transform: scale(0.8);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                
+}
+
+
+@keyframes elegantTransform {
+    
+                    0% {
+                        transform: scale(1) translateY(0);
+                        box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+                        will-change: transform;
+                        backface-visibility: hidden;
+                        -webkit-font-smoothing: subpixel-antialiased;
+                    }
+                    100% {
+                        transform: scale(1.02) translateY(-3px);
+                        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+                        will-change: transform;
+                        backface-visibility: hidden;
+                        -webkit-font-smoothing: subpixel-antialiased;
+                    }
+                
+}
+
+
+@keyframes pulseFade {
+    
+                    0% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                    50% {
+                        opacity: 0.5;
+                        transform: scale(1.05);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                
+}
+
+/* 入场动画 */
+.style-scope-8141 .block {
+    animation: var(--animation-duration-normal) var(--animation-easing-standard) both;
+    animation-name: scaleIn;
+    animation-delay: calc(var(--animation-duration-fast) * var(--animation-order, 0));
+    background: linear-gradient(135deg, var(--color-theme-primary-100), var(--color-theme-primary-300));
+    opacity: 0.95;
+    transform-origin: center center;
+    perspective: 1000px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 悬停动画 */
+.style-scope-8141 .block:hover {
+    animation: elegantTransform var(--animation-duration-normal) var(--animation-easing-decelerate) both;
+    transform: scale(1.02) translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    opacity: 1;
+    border-color: var(--color-theme-primary-400);
+    filter: brightness(1.03);
+    transition: all var(--animation-duration-normal) var(--animation-easing-decelerate);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* 标题动画 */
+.style-scope-8141 .title-1, .style-scope-8141 .title-2, .style-scope-8141 .title-3 {
+    animation: var(--animation-duration-normal) var(--animation-easing-decelerate) both;
+    animation-name: scaleIn;
+    animation-delay: calc(var(--animation-duration-fast) * 0.5);
+    background: linear-gradient(135deg, var(--color-theme-primary-200), var(--color-theme-primary-400));
+    border-radius: 8px;
+    opacity: 0.95;
+}
+
 /* 基础样式 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -72,35 +196,61 @@ body {
     overflow: auto;
 }
 
+
 /* 卡片容器 */
-.card {
+.style-scope-8141 .card {
     background: var(--color-layout-card-background);
     border: 1px solid var(--color-layout-card-border);
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
+    position: relative;
+    overflow: visible;
 }
 
 /* 块级元素 */
-.block {
+.style-scope-8141 .block {
     background: var(--color-layout-block-background);
     border: 1px solid var(--color-layout-block-border);
     border-radius: 8px;
     padding: var(--spacing-block-padding);
-    overflow:auto;
+    overflow: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.style-scope-8141 .block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* 子区块 */
-.subsection {
+.style-scope-8141 .subsection {
     background: var(--color-component-subsection-background);
     border: 1px solid var(--color-component-subsection-border);
-    border-radius: 6px;
+    border-radius: 12px;
     padding: var(--spacing-subsection-padding);
     margin: var(--spacing-subsection-margin_top) 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.style-scope-8141 .subsection::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        var(--color-theme-accent-300) 0%, 
+        var(-color-theme-accent-500) 100%);
+    opacity: 0.7;
 }
 
 /* 标题样式 */
-.title-1 {
+.style-scope-8141 .title-1 {
     background: var(--color-component-title_background-h1);
     color: var(--color-typography-title-h1);
     font-size: var(--font-size-h1);
@@ -109,10 +259,29 @@ body {
     margin-bottom: var(--spacing-md);
     text-align: center;
     padding: var(--spacing-sm);
-    border-radius: 6px;
+    border-radius: 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-out;
 }
 
-.title-2 {
+.style-scope-8141 .title-1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(255, 255, 255, 0) 50%, 
+        rgba(255, 255, 255, 0.1) 100%);
+    z-index: 1;
+}
+
+.style-scope-8141 .title-2 {
     background: var(--color-component-title_background-h2);
     color: var(--color-typography-title-h2);
     font-size: var(--font-size-h2);
@@ -120,10 +289,26 @@ body {
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: 4px;
+    border-radius: 6px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 1s ease-out;
 }
 
-.title-3 {
+.style-scope-8141 .title-2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--color-theme-primary-600) 50%, 
+        transparent 100%);
+}
+
+.style-scope-8141 .title-3 {
     background: var(--color-component-title_background-h3);
     color: var(--color-typography-title-h3);
     font-size: var(--font-size-h3);
@@ -132,102 +317,326 @@ body {
     margin-bottom: var(--spacing-sm);
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: 4px;
+    border-left: 3px solid var(--color-theme-accent-500);
+    animation: fadeIn 1s ease-out;
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.style-scope-8141 .title-4 {
+    background: var(--color-component-title_background-h4);
+    color: var(--color-typography-title-h4);
+    font-size: var(--font-size-h4);
+    line-height: 1.5;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+    border-bottom: 1px solid var(--color-theme-secondary-300);
 }
 
 /* 内容区域 */
-.content {
+.style-scope-8141 .content {
     background: var(--color-component-content-background);
     color: var(--color-typography-text-primary);
     font-size: var(--font-size-body);
     line-height: 1.6;
     padding: var(--spacing-sm);
     border-radius: 4px;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.content p {
+.style-scope-8141 .content p {
     margin-bottom: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
 }
 
-.content p:last-child {
+.style-scope-8141 .content p:last-child {
     margin-bottom: 0;
 }
 
+
 /* 图片样式 */
-.image-wrapper {
+.style-scope-8141 .image-wrapper {
     margin: var(--spacing-xs) 0;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
-.content-image {
+.style-scope-8141 .image-wrapper:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.style-scope-8141 .content-image {
     max-width: 100%;
     height: auto;
     display: block;
     object-fit: contain;
     margin: 0 auto;
+    transition: all 0.5s ease;
 }
-.link-wrapper {
-    margin: 0px;  /* 给链接加个间距 */
+
+.style-scope-8141 .content-image:hover {
+    filter: brightness(1.05);
+}
+
+.style-scope-8141 .link-wrapper {
+    margin: 0px;
     display: inline-block;
+    position: relative;
 }
 
-.link {
-    color: blue;
-    text-decoration: underline;
+.style-scope-8141 .link {
+    color: var(--color-theme-primary-600);
+    text-decoration: none;
+    background: linear-gradient(90deg, 
+        var(--color-theme-primary-500), 
+        var(--color-theme-accent-500));
+    -webkit-background-clip: text;
+    color: transparent;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
-.link:hover {
-    color: darkblue;
+.style-scope-8141 .link:hover {
+    background: linear-gradient(90deg, 
+        var(--color-theme-accent-500), 
+        var(--color-theme-primary-500));
+    -webkit-background-clip: text;
+    transform: translateY(-1px);
+}
+
+.style-scope-8141 .link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        var(--color-theme-primary-300), 
+        var(--color-theme-accent-300));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.style-scope-8141 .link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 /* 代码块 */
-.code-block {
+.style-scope-8141 .code-block {
     background: var(--color-layout-block-background);
     border: 1px solid var(--color-layout-block-border);
-    border-radius: 4px;
+    border-radius: 6px;
     padding: var(--spacing-sm);
     margin: var(--spacing-md) 0;
     overflow-x: auto;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.style-scope-8141 .code-block::before {
+    content: 'Code';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: var(--color-theme-primary-500);
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    z-index: 1;
 }
 
 /* 表格样式 */
-.table-container {
+.style-scope-8141 .table-wrapper,
+.style-scope-8141 .table-container {
     margin: var(--spacing-md) 0;
     overflow-x: auto;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-table {
+.style-scope-8141 .table-wrapper table,
+.style-scope-8141 table {
     width: 100%;
     border-collapse: collapse;
     background: var(--color-component-content-background);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-th, td {
-    padding: var(--spacing-xs);
+.style-scope-8141 table th, 
+.style-scope-8141 table td,
+.style-scope-8141 .table-wrapper th, 
+.style-scope-8141 .table-wrapper td {
+    padding: var(--spacing-xs) var(--spacing-sm);
     border: 1px solid var(--color-layout-block-border);
     text-align: left;
+    transition: all 0.2s ease;
 }
 
-th {
-    background: var(--color-layout-block-background);
+.style-scope-8141 table th,
+.style-scope-8141 .table-wrapper th {
+    background: var(--color-theme-primary-100);
     font-weight: 600;
     color: var(--color-typography-title-h3);
+    position: relative;
 }
 
-td {
+.style-scope-8141 table th::after,
+.style-scope-8141 .table-wrapper th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-theme-primary-300);
+}
+
+.style-scope-8141 table tr:nth-child(even),
+.style-scope-8141 .table-wrapper tr:nth-child(even) {
+    background-color: var(--color-theme-primary-50);
+}
+
+.style-scope-8141 table tr:hover,
+.style-scope-8141 .table-wrapper tr:hover {
+    background-color: var(--color-theme-secondary-50);
+}
+
+.style-scope-8141 table td,
+.style-scope-8141 .table-wrapper td {
     color: var(--color-typography-text-primary);
 }
-ul {
-    list-style-position: inside;  
+
+.style-scope-8141 ul {
+    list-style-position: inside;
+    margin-left: var(--spacing-sm);
+    padding-left: 20px;
 }
 
-li {
-    margin-left: 5px;  
+.style-scope-8141 ol {
+    list-style-type: none;
+    counter-reset: item;
+    margin-left: var(--spacing-sm);
+    padding-left: 20px;
 }
 
+.style-scope-8141 li {
+    margin: var(--spacing-xs) 0;
+    position: relative;
+    padding-left: var(--spacing-sm);
+}
+
+/* 无序列表样式 */
+.style-scope-8141 ul li::before {
+    content: '•';
+    color: var(--color-theme-accent-500);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* 有序列表样式 */
+.style-scope-8141 ol > li {
+    counter-increment: item;
+    display: block;
+    position: relative;
+}
+
+.style-scope-8141 ol > li::before {
+    content: counter(item) ".";
+    color: var(--color-theme-primary-500);
+    font-weight: bold;
+    position: absolute;
+    left: -20px;
+}
+
+/* 嵌套列表样式 */
+.style-scope-8141 ol ol {
+    counter-reset: subitem;
+    margin-top: var(--spacing-xs);
+    margin-left: 20px;
+}
+
+.style-scope-8141 ol ol > li {
+    counter-increment: subitem;
+}
+
+.style-scope-8141 ol ol > li::before {
+    content: counter(item) "." counter(subitem);
+    left: -25px;
+}
+
+/* 动画和过渡效果 */
+.style-scope-8141 * {
+    transition: all 0.3s ease;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .style-scope-8141 .block {
+        padding: var(--spacing-xs);
+    }
+    
+    .style-scope-8141 .title-1 {
+        font-size: calc(var(--font-size-h1) * 0.9);
+    }
+    
+    .style-scope-8141 .title-2 {
+        font-size: calc(var(--font-size-h2) * 0.9);
+    }
+}
+
+/* 块级元素增强样式 */
+.style-scope-8141 .block {
+    border-radius: 21px;
+    border-width: 3px;
+    border-style: double;
+    border-color: var(--color-border);
+    background: var(--color-layout-block-background);
+    padding: 13px 28px;
+    box-shadow: inset 0px 0px 9px rgba(0,0,0,0.3);
+    opacity: 1.0;
+    transition: all 0.8044027321977104s ease-out;
+    
+}
+
+.style-scope-8141 .block:hover {
+    transform: scale(1.05);
+}
 
     </style>
 <style>
@@ -248,22 +657,23 @@ li {
             }
         </style></head>
 <body>
+<div class="style-scope-8141">
 <div class="card" style="
-            width: 870px;
-            height: 730px;
+            width: 870.0px;
+            height: 700.0px;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
         ">
 <div class="block" id="block_0" style="
                     position: absolute;
                     left: 445.875px;
-                    top: 9.125000000000009px;
+                    top: 8.750000000000007px;
                     width: 413.25px;
-                    height: 338.75px;
+                    height: 332.5px;
                 ">
-<h1 class="title-1">节假日信息</h1>
-<div class="content" style="">
-<p>根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为圣诞节，预计放假天数为1天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。</p>
+<h1 class="title-1" style="padding: 4px;">节假日信息</h1>
+<div class="content" style="padding: 4px;">
+<p>根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为"双11"，预计放假天数为"1"天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。</p>
 </div>
 <div class="subsections-wrapper">
 </div>
@@ -271,33 +681,33 @@ li {
 <div class="block" id="block_1" style="
                     position: absolute;
                     left: 10.875000000000009px;
-                    top: 374.125px;
+                    top: 358.75px;
                     width: 413.25px;
-                    height: 584.0px;
+                    height: 332.5px;
                 ">
-<h1 class="title-1">请假方案</h1>
+<h1 class="title-1" style="padding: 4px;">请假方案</h1>
 <div class="subsections-wrapper">
-<div class="subsection" style="">
-<h4 class="title-4">请假理由：</h4>
-<div class="content" style="">
-<p>个人健康与家庭事务</p>
+<div class="subsection" style="padding: 4px;">
+<h4 class="title-4" style="font-size: 14px; padding: 4px;">请假理由：</h4>
+<div class="content" style="padding: 4px;">
+<p>为了调整身心，提高工作效率，特申请调休。</p>
 </div>
 </div>
-<div class="subsection" style="">
-<h4 class="title-4">请假开始时间：</h4>
-<div class="content" style="">
-<p>2024-12-23 09:00</p>
+<div class="subsection" style="padding: 4px;">
+<h4 class="title-4" style="font-size: 14px; padding: 4px;">请假开始时间：</h4>
+<div class="content" style="padding: 4px;">
+<p>2024-11-27 09:00</p>
 </div>
 </div>
-<div class="subsection" style="">
-<h4 class="title-4">请假结束时间：</h4>
-<div class="content" style="">
-<p>2024-12-27 18:00</p>
+<div class="subsection" style="padding: 4px;">
+<h4 class="title-4" style="font-size: 14px; padding: 4px;">请假结束时间：</h4>
+<div class="content" style="padding: 4px;">
+<p>2024-11-31 18:00</p>
 </div>
 </div>
-<div class="subsection" style="">
-<h4 class="title-4">请假时长：</h4>
-<div class="content" style="">
+<div class="subsection" style="padding: 4px;">
+<h4 class="title-4" style="font-size: 14px; padding: 4px;">请假时长：</h4>
+<div class="content" style="padding: 4px;">
 <p>5天</p>
 </div>
 </div>
@@ -306,12 +716,12 @@ li {
 <div class="block" id="block_2" style="
                     position: absolute;
                     left: 10.875000000000009px;
-                    top: 9.125000000000009px;
+                    top: 8.750000000000007px;
                     width: 413.25px;
-                    height: 342.75px;
+                    height: 332.5px;
                 ; overflow-y: auto; overflow-y: auto;">
-<h1 class="title-1">请假日期</h1>
-<div class="content" style="font-size: 13px; padding: 4px;">
+<h1 class="title-1" style="padding: 4px;">请假日期</h1>
+<div class="content" style="padding: 4px;">
 <div class="table-wrapper"><table>
 <thead><tr>
 <th>日期</th>
@@ -320,28 +730,28 @@ li {
 </tr></thead>
 <tbody>
 <tr>
-<td>12月23日</td>
+<td>2024-11-27</td>
+<td>周日</td>
+<td>请假</td>
+</tr>
+<tr>
+<td>2024-11-28</td>
 <td>周一</td>
 <td>请假</td>
 </tr>
 <tr>
-<td>12月24日</td>
+<td>2024-11-29</td>
 <td>周二</td>
 <td>请假</td>
 </tr>
 <tr>
-<td>12月25日</td>
+<td>2024-11-30</td>
 <td>周三</td>
 <td>请假</td>
 </tr>
 <tr>
-<td>12月26日</td>
+<td>2024-11-31</td>
 <td>周四</td>
-<td>请假</td>
-</tr>
-<tr>
-<td>12月27日</td>
-<td>周五</td>
 <td>请假</td>
 </tr>
 </tbody>
@@ -352,38 +762,39 @@ li {
 </div>
 <div class="block" id="block_3" style="
                     position: absolute;
-                    left: 445.875px;
-                    top: 374.125px;
-                    width: 413.25px;
-                    height: 544.0px;
-                ">
-<h1 class="title-1">旅游建议</h1>
-<div class="content" style="">
+                    left: 435.875px;
+                    top: 358.75px;
+                    width: 424.125px;
+                    height: 332.5px;
+                ; overflow-y: auto; overflow-y: auto;">
+<h1 class="title-1" style="padding: 4px;">旅游建议</h1>
+<div class="content" style="padding: 4px;">
 <p>根据您的假期时长，查询了近期适合出游的地点，建议前往以下地区及景点：</p>
 </div>
 <div class="subsections-wrapper">
-<div class="subsection" style="">
-<h4 class="title-4">北京 - 北京市 100KM</h4>
-<div class="content" style="">
+<div class="subsection" style="padding: 4px;">
+<h4 class="title-4" style="font-size: 14px; padding: 4px;">北京 - 北京市 100KM</h4>
+<div class="content" style="padding: 4px;">
 <ul>
 <li>故宫博物院、颐和园、天安门广场</li>
 </ul>
 </div>
 </div>
-<div class="subsection" style="">
-<h4 class="title-4">上海 - 上海市 1000KM</h4>
-<div class="content" style="">
+<div class="subsection" style="padding: 4px;">
+<h4 class="title-4" style="font-size: 14px; padding: 4px;">上海 - 上海市 1000KM</h4>
+<div class="content" style="padding: 4px;">
 <ul>
 <li>外滩、东方明珠、上海迪士尼乐园</li>
 </ul>
 </div>
 </div>
-<div class="subsection" style="">
-<h4 class="title-4">成都 - 四川省 1500KM</h4>
-<div class="content" style="">
+<div class="subsection" style="padding: 4px;">
+<h4 class="title-4" style="font-size: 14px; padding: 4px;">成都 - 四川省 1500KM</h4>
+<div class="content" style="padding: 4px;">
 <ul>
-<li>宽窄巷子、武侯祠、锦里古街"</li>
+<li>宽窄巷子、锦里、熊猫基地</li>
 </ul>
+</div>
 </div>
 </div>
 </div>

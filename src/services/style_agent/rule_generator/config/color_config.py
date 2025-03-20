@@ -10,32 +10,44 @@ class ColorConfig(BaseConfig):
         {
             "name": "blue",
             "color": "#2196F3",
+            "accent": "#1976D2",
             "type": "primary"
         },
         {
             "name": "green",
             "color": "#4CAF50",
+            "accent": "#388E3C",
             "type": "success"
         },
         {
             "name": "purple",
             "color": "#9C27B0",
+            "accent": "#7B1FA2",
             "type": "accent"
         },
         {
             "name": "orange",
             "color": "#FF5722",
+            "accent": "#E64A19",
             "type": "warning"
         },
         {
             "name": "red",
             "color": "#F44336",
+            "accent": "#D32F2F",
             "type": "error"
         },
         {
             "name": "teal",
             "color": "#009688",
+            "accent": "#00796B",
             "type": "info"
+        },
+        {
+            "name": "grey",
+            "color": "#607D8B",
+            "accent": "#455A64",
+            "type": "neutral"
         }
     ]
     
@@ -79,7 +91,7 @@ class ColorConfig(BaseConfig):
                 "h4": "",      # 四级标题背景
                 "h5": ""       # 五级标题背景
             },
-            # 子区��背景
+            # 子区背景
             "subsection": {
                 "background": "", # 子区块背景色
                 "border": ""     # 子区块边框

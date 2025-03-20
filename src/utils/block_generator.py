@@ -18,7 +18,7 @@ class BlockGenerator:
         self.dimension_calculator = DimensionCalculator()
         self.use_default_layout = card is None or not card
     
-    def update_layout_and_get_content(self, json_content: str, blocks: List[Dict], positions: List[List[float]],container_width: float = 1200) -> List[Dict]:
+    def update_layout_and_get_content(self, json_content: str, blocks: List[Dict], positions: List[List[float]],container_width,scale) -> List[Dict]:
         """
         更新布局信息并映射到JSON内容
         
@@ -34,7 +34,12 @@ class BlockGenerator:
         sections = json.loads(json_content)
          # 如果 blocks 只有一块，直接跳过布局更新，直接添加内容
         if len(blocks) == 1:
+            
             block = blocks[0]
+            block["position_x"]=block["position_x"]*scale
+            block["position_y"]=block["position_y"]*scale
+            block["act_width"]=block["act_width"]*scale
+            block["act_height"]=block["act_height"]*scale
             idx = block["index"]
             section = sections[idx]
             block["content"] = {
@@ -45,6 +50,17 @@ class BlockGenerator:
             block["content"]["subsections"] = section["subsections"]
             return blocks
         # 更新blocks的布局信息并添加内容映射
+        scaled_positions = []
+        for position in positions:
+            x, y, width, height = position
+            scaled_positions.append([
+                x * scale,
+                y * scale,
+                width * scale,
+                height * scale
+            ])
+        positions=scaled_positions
+        container_width=scale * container_width
         for block in blocks:
             idx = block["index"]
             if positions[idx]:  # positions中的顺序与index对应
@@ -108,15 +124,18 @@ class BlockGenerator:
             # 找到最右部的列
             right_row_x = max(block["position_x"] for block in blocks)
             
-            # 找到属于最右行的 blocks
+            # 找到属于最右列的 blocks
             right_row_blocks = [block for block in blocks if block["position_x"] == right_row_x]
-        
-            # 调整顶部 blocks 的 x 坐标
+            print("right=",right_row_blocks,"\n\n")
+            # 调整右部 blocks 的 x 坐标
             for block in right_row_blocks:
+                print("block=pre",block,"\n\n")
                 block["position_x"] = min(container_width-block["act_width"]-10, block["position_x"] )
+                print("a",container_width,"b",block["act_width"],"x",block["position_x"])
+                print("block=behind",block,"\n\n")
         except Exception as e:
             print(f"Error during layout adjustment: {e}")
-        
+           
         
         return blocks
 
