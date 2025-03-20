@@ -8,6 +8,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 from matplotlib import font_manager as fm
+import numpy as np
+from matplotlib.ticker import ScalarFormatter
 
 def set_chinese_font():
     """
@@ -72,8 +74,58 @@ def generate_chart_base64(df, chart_type):
         
         plt.xticks(rotation=45, fontproperties=font)
         plt.yticks(fontproperties=font)
+    if chart_type == "barh":
+        dates = df.iloc[:, 0]
+        counts = pd.to_numeric(df.iloc[:, 1])
 
-    # 你可以在这里添加更多的图表类型处理
+        # 创建一个图形和轴对象
+        fig, ax = plt.subplots(figsize=(7, 3), dpi=100)
+        
+        # 为柱子生成颜色渐变 - 使用紫色到蓝色的渐变
+        num_bars = len(dates)
+        colors = plt.cm.cool(np.linspace(0.2, 0.8, num_bars))  # 使用cool色彩映射获得紫色到蓝色渐变
+        
+        # 调整y轴，减少柱子间距
+        y_pos = np.arange(len(dates))
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(dates, fontproperties=font)
+        
+        # 绘制横向柱状图 - 使用自定义位置和减小的柱子高度
+        bars = ax.barh(y_pos, counts, color=colors, height=0.25)
+        
+        # 在每个柱子末端添加数值标签 - 修改这里以使用更友好的格式
+        for bar in bars:
+            width = bar.get_width()
+            # 使用整数格式而非科学计数法
+            ax.text(width + 0.02*max(counts), bar.get_y() + bar.get_height()/2, 
+                   f'{int(width)}', va='center', fontsize=10, fontproperties=font)
+        
+        # 设置x轴刻度标签格式
+        # 使用ScalarFormatter避免科学计数法
+        formatter = ScalarFormatter(useOffset=False)
+        formatter.set_scientific(False)
+        ax.xaxis.set_major_formatter(formatter)
+        
+        # 设置字体
+        ax.set_xticklabels([f'{int(x)}' for x in ax.get_xticks()], fontproperties=font)
+
+        # 添加网格线，但只在x轴方向
+        ax.grid(axis='x', linestyle='--', alpha=0.7, color='#E0E0E0')
+        
+        # 隐藏顶部和右侧的边框
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_visible(True)
+        ax.spines['bottom'].set_visible(True)
+        
+        # 设置x轴范围，确保有足够空间显示标签
+        ax.set_xlim(0, max(counts) * 1.15)
+        
+        # 调整y轴范围，减少上下空白
+        ax.set_ylim(-0.5, len(dates) - 0.5)
+        
+        # 设置间距，避免柱子间距过大
+        plt.subplots_adjust(left=0.2, right=0.9, top=0.95, bottom=0.1)
     elif chart_type == "pie":
         # 自动选择第一列为分类，第二列为数值生成饼图
         labels = df.iloc[:, 0]
@@ -135,32 +187,36 @@ def generate_chart_base64(df, chart_type):
         ax.set_ylabel("数值", fontproperties=font,fontsize=8) 
         ax.legend(labels=df.columns, loc='upper left', bbox_to_anchor=(1, 1),prop=font,fontsize=8) 
         for container in ax.containers:
-            ax.bar_label(container, fontsize=8, padding=5)  
-        ax.spines['top'].set_visible(False)  
-        ax.spines['right'].set_visible(False)  
-        ax.spines['left'].set_visible(True)  
-        ax.spines['bottom'].set_visible(True)  
+            ax.bar_label(container, fontsize=8, padding=5)  # 设置字体大小和标签位置（padding）
+        ax.spines['top'].set_visible(False)  # 隐藏顶部边框
+        ax.spines['right'].set_visible(False)  # 隐藏右边框
+        ax.spines['left'].set_visible(True)  # 保持左边框
+        ax.spines['bottom'].set_visible(True)  # 保持底部边框
         plt.tight_layout()
         plt.xticks(rotation=45, fontproperties=font)
     elif chart_type == "grouped_line":
         df = df.set_index(df.columns[0])
         df = df.apply(pd.to_numeric, errors='coerce')
         ax = df.plot(kind='line', figsize=(12, 5), linewidth=1, colormap='Set2')
-        ax.set_xlabel("日期", fontproperties=font, fontsize=12)  
-        ax.set_ylabel("数值", fontproperties=font, fontsize=12)  
+        ax.set_xlabel("日期", fontproperties=font, fontsize=12)  # x 轴设置为"日期"
+        ax.set_ylabel("数值", fontproperties=font, fontsize=12)  # y 轴的标签可以固定为"数量"
         ax.legend(labels=df.columns, loc='upper left', bbox_to_anchor=(1, 1), prop=font, fontsize=12)
 
+        # 设置线条标签（每个数据点上方显示数值）
         for line in ax.lines:
             yvals = line.get_ydata()
             for i, j in enumerate(yvals):
                 ax.text(line.get_xdata()[i], yvals[i], f'{j:.2f}', fontsize=12, ha='center', va='bottom')
 
-        ax.spines['top'].set_visible(False)  
-        ax.spines['right'].set_visible(False)  
-        ax.spines['left'].set_visible(True)  
-        ax.spines['bottom'].set_visible(True)  
+        # 隐藏图表的顶部和右边框
+        ax.spines['top'].set_visible(False)  # 隐藏顶部边框
+        ax.spines['right'].set_visible(False)  # 隐藏右边框
+        ax.spines['left'].set_visible(True)  # 保持左边框
+        ax.spines['bottom'].set_visible(True)  # 保持底部边框
 
+        # 调整布局，避免标签重叠
         plt.tight_layout()
+        # 旋转 x 轴标签（日期），避免重叠
         plt.xticks(rotation=45, fontproperties=font, fontsize=12)
 
     elif chart_type == "heatmap":
@@ -184,7 +240,7 @@ def generate_chart_base64(df, chart_type):
     plt.tight_layout()
     
     buffer = io.BytesIO()
-    plt.savefig(buffer, format="png", bbox_inches="tight", dpi=100)
+    plt.savefig(buffer, format="png",transparent=True, bbox_inches="tight", dpi=100)
     plt.close()
     
     # 获取图像的Base64编码

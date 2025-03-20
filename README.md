@@ -1,6 +1,6 @@
-# AIGUI Model Service
+# AIGUI 
 
-AIGUI Model Service 是一个基于 FastAPI 的 AI GUI 布局和样式生成服务，能够将 Markdown 文本智能转换为具有优化布局和样式的 HTML 页面。
+AIGUI 是一个基于 FastAPI 的 AI GUI 布局和样式生成服务，能够将 Markdown 文本智能转换为具有优化布局和样式的 HTML 页面。
 
 ## 功能特性
 
@@ -149,18 +149,14 @@ python -m cProfile -o output.prof main.py
 
 ## 维护者
 
-- in_liyue@dingdao.com
+- 327541575@qq.com
 
 ## 更新日志
 
-### v1.0.1 (2024/12/24)
+### v1.0.1 (2025/2/28)
 - 初始版本发布
 - 支持基础布局生成
 - 添加样式优化功能
-
-## License
-
-Copyright © 2024 DingDao
 
 {
 
