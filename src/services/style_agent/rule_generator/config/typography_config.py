@@ -13,7 +13,8 @@ class TypographyConfig(BaseConfig):
                 "caption": 0.833,  # 10px
                 "body": 1,        # 12px
                 "subtitle": 1.167, # 14px
-                "title": 1.333,   # 16px
+                "title": 1.3,   # 16px
+                "h4": 1.333,       # 16px
                 "h3": 1.5,       # 18px
                 "h2": 1.667,     # 20px
                 "h1": 2.0,       # 24px
@@ -28,7 +29,8 @@ class TypographyConfig(BaseConfig):
                 "caption": 0.857,  # 12px
                 "body": 1,         # 14px
                 "subtitle": 1.143, # 16px
-                "title": 1.286,    # 18px
+                "title": 1.2,    # 18px
+                "h4": 1.286,       # 18px
                 "h3": 1.429,      # 20px
                 "h2": 1.714,      # 24px
                 "h1": 2.0,        # 28px
@@ -43,7 +45,8 @@ class TypographyConfig(BaseConfig):
                 "caption": 0.75,   # 12px
                 "body": 1,         # 16px
                 "subtitle": 1.25,  # 20px
-                "title": 1.5,      # 24px
+                "title": 1.4,      # 24px
+                "h4": 1.5,         # 24px
                 "h3": 1.75,       # 28px
                 "h2": 1.8,          # 32px
                 "h1": 2.0,       # 36px
@@ -100,6 +103,11 @@ class TypographyConfig(BaseConfig):
             "weight": "semibold",
             "line_height": "normal"
         },
+        "h4": {
+            "size": "h4",
+            "weight": "semibold",
+            "line_height": "normal"
+        },
         "body": {
             "size": "body",
             "weight": "regular",
@@ -138,7 +146,7 @@ class TypographyConfig(BaseConfig):
         else:
             scales = self.TYPOGRAPHY_SYSTEM["scales"]
             # 验证关键级别是否存在
-            required_scales = ["caption", "body", "subtitle", "title", "h3", "h2", "h1", "display"]
+            required_scales = ["caption", "body", "subtitle", "title", "h4","h3", "h2", "h1", "display"]
             for scale in required_scales:
                 if scale not in scales:
                     errors.append(f"缺少必需的字体级别: {scale}")

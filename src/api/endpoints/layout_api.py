@@ -74,6 +74,7 @@ async def generate_layout_content(
     markdown_text: str,
     card_size: dict,
     theme_color: str,
+    scale_value: float,
     style_config: dict = STYLE_CONFIG
 ) -> dict:
     """
@@ -83,6 +84,7 @@ async def generate_layout_content(
         markdown_text: Markdown文本内容
         card_size: 卡片尺寸配置 {"width": width, "height": height}
         theme_color: 主题颜色
+        scale_value: 缩放比例
         style_config: 样式配置
     
     Returns:
@@ -109,7 +111,8 @@ async def generate_layout_content(
             json_content,
             layout_infos,
             final_positions,
-            card_size['width']
+            card_size['width'],
+            scale_value
         )
     else:
         layout_json = await execute_in_threadpool(
@@ -122,7 +125,7 @@ async def generate_layout_content(
     # 生成样式规则
     generator = StyleRuleGenerator(
         layout_info=layout_json,
-        card_size=card_size,
+        card_size={"width": card_size['width']*scale_value, "height": card_size['height']*scale_value},
         theme_color=theme_color
     )
     style_rules = await execute_in_threadpool(generator.generate)
@@ -144,24 +147,25 @@ async def generate_layout_api(request: LayoutRequest):
         # 使用 Semaphore 控制并发
         async with semaphore:
             card_size = {
-                
+
             }
             if request.card_width and request.card_height:
                 card_size = {
-                    "width": request.card_width-10,
-                    "height": request.card_height
+                    "width": int(request.card_width)-10 if request.card_width else 1200,
+                    "height": int(request.card_height) if request.card_height else 800
                 }
-            
+            scale_value = float(request.scale_value) if request.scale_value else 1.0
             layout_json, style_rules = await generate_layout_content(
                 request.markdown_text,
                 card_size,
-                request.theme_color
+                request.theme_color,
+                scale_value
             )
+            card_size={"width": card_size['width']*scale_value, "height": card_size['height']*scale_value}
+            runtime = RuntimeManager(layout_info=layout_json, card_size=card_size, style_rules=style_rules,scale=scale_value)
             
-            runtime = RuntimeManager(layout_info=layout_json, card_size=card_size, style_rules=style_rules)
-            
-            result = runtime.generate_html()
-
+            result = runtime.generate_html(scale_value)
+           
             return LayoutResponse(layout_json=result)
         
     except Exception as e:

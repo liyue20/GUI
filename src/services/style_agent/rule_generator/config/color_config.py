@@ -36,6 +36,11 @@ class ColorConfig(BaseConfig):
             "name": "teal",
             "color": "#009688",
             "type": "info"
+        },
+        {
+            "name": "grey",
+            "color": "#607D8B",
+            "type": "neutral"
         }
     ]
     
@@ -79,7 +84,7 @@ class ColorConfig(BaseConfig):
                 "h4": "",      # 四级标题背景
                 "h5": ""       # 五级标题背景
             },
-            # 子区��背景
+            # 子区背景
             "subsection": {
                 "background": "", # 子区块背景色
                 "border": ""     # 子区块边框

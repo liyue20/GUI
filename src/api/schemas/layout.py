@@ -8,6 +8,7 @@ class LayoutRequest(BaseModel):
     card_width: str  # Changed to str
     card_height: str  # Changed to str
     theme_color: str
+    scale_value: Optional[str] = "1.0"
     is_html: Optional[bool] = False
 
     @validator('card_width', 'card_height')
