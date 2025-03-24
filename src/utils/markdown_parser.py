@@ -65,22 +65,26 @@ class MarkdownParser:
         # 遍历并解析内容
         self._parse_content(soup,markdown_text)
         
-        # 确保最后一个section被添加
+        # 确保最后一个section被添加，即使没有遇到下一个主section
         if self.current_section:
-            self.sections.append(self.current_section)
+            # 检查当前section是否已经在列表中
+            if not self.sections or self.sections[-1] != self.current_section:
+                self.sections.append(self.current_section)
         
         return json.dumps(self.sections, ensure_ascii=False, indent=2)
     
-    def _parse_content(self, soup,markdown_text):
+    def _parse_content(self, soup, markdown_text):
         """解析HTML内容"""
-        for element in soup.children:
+        highest_level = self._get_highest_level_header(markdown_text)
+        elements = list(soup.children)
+        
+        for element in elements:
             if not element.name:  # 跳过空文本节点
                 continue
             
             # 处理标题
             if element.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
                 level = int(element.name[1])
-                highest_level = self._get_highest_level_header(markdown_text)
                 if level == highest_level:  # 最高级标题开始新的主section
                     self._handle_main_section(element)
                 else:  # 其他级别标题作为子section
@@ -96,16 +100,21 @@ class MarkdownParser:
                         self.current_section["content"].append(content)
     
     def _handle_main_section(self, element):
-        """处理主section（h1标题）"""
-        # 保存当前section
+        """处理主section（根据实际标题级别）"""
+        # 保存当前section（如果存在）
         if self.current_section:
-            self.sections.append(self.current_section)
+            # 确保当前section有内容或子section，避免添加空的section
+            if self.current_section["content"] or self.current_section["subsections"]:
+                self.sections.append(self.current_section)
         
-        # 创建新的main section
+        # 获取实际的标题级别
+        level = int(element.name[1])  # 从h1,h2,h3等标签名中提取数字
+        
+        # 创建新的main section，使用实际的标题级别
         self.current_section = {
             "title": {
                 "text": element.get_text(strip=True),
-                "level": 1
+                "level": level  # 这里改为使用实际的标题级别，而不是固定的1
             },
             "content": [],
             "subsections": [],
@@ -151,23 +160,32 @@ class MarkdownParser:
         # 2. 移除开头和结尾的空白字符
         text = text.strip()
         
-        # 3. 检查是否已经是标准的markdown标题格式
-        if text.startswith('# '):
-            # 如果是标准格式，直接使用
-            pass
-        elif text.startswith('#'):
-            # 如果#后面没有空格，添加空格
-            text = '# ' + text[1:].lstrip()
-        else:
-            # 如果不是标题格式，添加空标题
-            text = "# \n" + text
-        
-        # 4. 按行处理文本
+        # 3. 处理标题格式
+        # 正则表达式查找所有标题行
         lines = text.split('\n')
-        lines = [line.rstrip() for line in lines]
+        processed_lines = []
+        
+        for line in lines:
+            # 处理标题行格式
+            header_match = re.match(r'^(#+)(\s*)(.*)$', line)
+            if header_match:
+                # 提取标题级别和内容
+                hashes = header_match.group(1)  # 获取所有#
+                space = header_match.group(2)   # 获取#和文本之间的空格
+                content = header_match.group(3) # 获取文本内容
+                
+                # 确保#和内容之间有一个空格
+                if not space:
+                    line = f"{hashes} {content}"
+            
+            processed_lines.append(line.rstrip())
+        
+        # 4. 如果没有任何标题，添加一个空的一级标题
+        if not any(re.match(r'^#+\s', line) for line in processed_lines):
+            processed_lines.insert(0, "# ")
         
         # 5. 调用markdown处理函数
-        text = '\n'.join(lines)
+        text = '\n'.join(processed_lines)
         text = markdown_to_markdown(text)
         
         return text

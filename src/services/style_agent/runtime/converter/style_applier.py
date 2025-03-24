@@ -31,10 +31,61 @@ class StyleApplier:
         {self._generate_css_rules()}
     </style>
 </head>
-<body >
-    <div class="{self.unique_class}">
-        {html}
+<body>
+  <div class="{self.unique_class}">
+    {html}
+    
+    <!-- 全屏图片查看器 -->
+    <div class="fullscreen-viewer" id="imageViewer">
+      <img src="" class="fullscreen-image" id="viewerImage">
+      <button class="close-button" id="closeViewer">×</button>
     </div>
+  </div>
+  
+  <!-- 图片点击全屏查看功能的JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {{
+      // 获取所有图片和查看器元素
+      const imageWrappers = document.querySelectorAll('.{self.unique_class} .image-wrapper');
+      const viewer = document.getElementById('imageViewer');
+      const viewerImage = document.getElementById('viewerImage');
+      const closeButton = document.getElementById('closeViewer');
+      
+      // 为每个图片添加点击事件
+      imageWrappers.forEach(wrapper => {{
+        wrapper.addEventListener('click', function() {{
+          const image = this.querySelector('.content-image');
+          if (image) {{
+            viewerImage.src = image.src;
+            viewer.classList.add('active');
+            document.body.style.overflow = 'hidden'; // 防止滚动
+          }}
+        }});
+      }});
+      
+      // 关闭查看器
+      closeButton.addEventListener('click', function() {{
+        viewer.classList.remove('active');
+        document.body.style.overflow = '';
+      }});
+      
+      // 点击背景也可以关闭
+      viewer.addEventListener('click', function(e) {{
+        if (e.target === viewer) {{
+          viewer.classList.remove('active');
+          document.body.style.overflow = '';
+        }}
+      }});
+      
+      // ESC键关闭
+      document.addEventListener('keydown', function(e) {{
+        if (e.key === 'Escape' && viewer.classList.contains('active')) {{
+          viewer.classList.remove('active');
+          document.body.style.overflow = '';
+        }}
+      }});
+    }});
+  </script>
 </body>
 </html>
 """
@@ -346,8 +397,27 @@ body {{
     margin: var(--spacing-xs) 0;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer; /* 添加指针样式，提示可点击 */
+    position: relative;
+}}
+
+.{self.unique_class} .image-wrapper::after {{
+    content: '🔍';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}}
+
+.{self.unique_class} .image-wrapper:hover::after {{
+    opacity: 1;
 }}
 
 .{self.unique_class} .image-wrapper:hover {{
@@ -361,15 +431,61 @@ body {{
     display: block;
     object-fit: contain;
     margin: 0 auto;
-    transition: all 0.5s ease;
+    transition: transform 0.3s ease;
 }}
 
-.{self.unique_class} .content-image:hover {{
-    filter: brightness(1.05);
+/* 全屏查看器样式 */
+.{self.unique_class} .fullscreen-viewer {{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}}
+
+.{self.unique_class} .fullscreen-viewer.active {{
+    display: flex;
+    opacity: 1;
+}}
+
+.{self.unique_class} .fullscreen-image {{
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}}
+
+.{self.unique_class} .close-button {{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s;
+}}
+
+.{self.unique_class} .close-button:hover {{
+    background: rgba(255, 0, 0, 0.7);
 }}
 
 .{self.unique_class} .link-wrapper {{
-    margin: 0px;
+    margin: 0px;  /* 给链接加个间距 */
     display: inline-block;
     position: relative;
 }}
