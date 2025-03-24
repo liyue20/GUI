@@ -38,8 +38,8 @@ def extract_tables(markdown):
     - 必须包含分隔行
     - 所有行必须以 | 开始和结束
     """
-    # 修改正则表达式，使其更严格地匹配Markdown表格格式
-    pattern = r'\[chart:(\w+)\](\|[^\n]*\n\|[\s-]*\|[^\n]*\n(?:\|[^\n]*\n)*)'
+    # 修改正则表达式，使其能够处理表格末尾没有换行符的情况
+    pattern = r'\[chart:(\w+)\](\|[^\n]*\n\|[\s-]*\|[^\n]*\n(?:\|[^\n]*(?:\n|$))*)'
     tables = []
     
     for match in re.finditer(pattern, markdown):
@@ -78,38 +78,42 @@ def generate_chart_base64(df, chart_type):
         dates = df.iloc[:, 0]
         counts = pd.to_numeric(df.iloc[:, 1])
 
-        # 创建一个图形和轴对象
-        fig, ax = plt.subplots(figsize=(7, 3), dpi=100)
+        # 创建一个图形和轴对象，增加图像尺寸以适应更大的字体
+        fig, ax = plt.subplots(figsize=(7, 3), dpi=100)  # 稍微增加图像尺寸
         
         # 为柱子生成颜色渐变 - 使用紫色到蓝色的渐变
         num_bars = len(dates)
-        colors = plt.cm.cool(np.linspace(0.2, 0.8, num_bars))  # 使用cool色彩映射获得紫色到蓝色渐变
+        colors = plt.cm.cool(np.linspace(0.2, 0.8, num_bars))
         
         # 调整y轴，减少柱子间距
         y_pos = np.arange(len(dates))
         ax.set_yticks(y_pos)
-        ax.set_yticklabels(dates, fontproperties=font)
+        # 增加y轴标签字体大小
+        ax.set_yticklabels(dates, fontproperties=font, fontsize=14)
         
-        # 绘制横向柱状图 - 使用自定义位置和减小的柱子高度
-        bars = ax.barh(y_pos, counts, color=colors, height=0.25)
+        # 绘制横向柱状图
+        bars = ax.barh(y_pos, counts, color=colors, height=0.3)  # 稍微增加柱子高度
         
-        # 在每个柱子末端添加数值标签 - 修改这里以使用更友好的格式
+        # 在每个柱子末端添加数值标签
         for bar in bars:
             width = bar.get_width()
-            # 使用整数格式而非科学计数法
             ax.text(width + 0.02*max(counts), bar.get_y() + bar.get_height()/2, 
-                   f'{int(width)}', va='center', fontsize=10, fontproperties=font)
+                   f'{int(width)}', va='center', fontsize=14, fontproperties=font)
         
         # 设置x轴刻度标签格式
-        # 使用ScalarFormatter避免科学计数法
         formatter = ScalarFormatter(useOffset=False)
         formatter.set_scientific(False)
         ax.xaxis.set_major_formatter(formatter)
         
-        # 设置字体
-        ax.set_xticklabels([f'{int(x)}' for x in ax.get_xticks()], fontproperties=font)
-
-        # 添加网格线，但只在x轴方向
+        # 增加x轴刻度标签字体大小
+        ax.set_xticklabels([f'{int(x)}' for x in ax.get_xticks()], 
+                           fontproperties=font, 
+                           fontsize=14)  # 增加字体大小
+        
+        # 设置轴标签字体大小
+        ax.tick_params(axis='both', which='major', labelsize=14)  # 统一设置刻度标签大小
+        
+        # 添加网格线
         ax.grid(axis='x', linestyle='--', alpha=0.7, color='#E0E0E0')
         
         # 隐藏顶部和右侧的边框
@@ -119,13 +123,13 @@ def generate_chart_base64(df, chart_type):
         ax.spines['bottom'].set_visible(True)
         
         # 设置x轴范围，确保有足够空间显示标签
-        ax.set_xlim(0, max(counts) * 1.15)
+        ax.set_xlim(0, max(counts) * 1.2)  # 稍微增加右侧空间
         
         # 调整y轴范围，减少上下空白
         ax.set_ylim(-0.5, len(dates) - 0.5)
         
-        # 设置间距，避免柱子间距过大
-        plt.subplots_adjust(left=0.2, right=0.9, top=0.95, bottom=0.1)
+        # 调整图表边距，为更大的标签留出空间
+        plt.subplots_adjust(left=0.25, right=0.9, top=0.95, bottom=0.15)
     elif chart_type == "pie":
         # 自动选择第一列为分类，第二列为数值生成饼图
         labels = df.iloc[:, 0]
@@ -255,6 +259,10 @@ def parse_table(table_str):
     解析 Markdown 表格为 DataFrame
     优化：增加了列数一致性检查、格式错误处理、空格清理等功能。
     """
+    # 确保输入表格字符串以换行符结束
+    if not table_str.endswith('\n'):
+        table_str += '\n'
+        
     # 去除首尾空白和多余的空格
     lines = [line.strip() for line in table_str.strip().split('\n')]
 
@@ -274,13 +282,21 @@ def parse_table(table_str):
     
     # 检查列数一致性：表头和每一行的数据列数应一致
     header_columns = len(rows[0])
+    valid_rows = [rows[0]]  # 保存表头
+    
     for row in rows[1:]:
-        if len(row) != header_columns:
+        if len(row) == header_columns:
+            valid_rows.append(row)
+        else:
             print(f"警告：表格数据行列数不一致，跳过这一行: {row}")
-            continue  # 跳过格式不正确的行
+    
+    # 如果没有有效数据行，返回None
+    if len(valid_rows) < 2:
+        print("没有有效的数据行")
+        return None
 
     # 创建 DataFrame
-    df = pd.DataFrame(rows[1:], columns=rows[0])
+    df = pd.DataFrame(valid_rows[1:], columns=valid_rows[0])
     
     return df
 
@@ -290,6 +306,10 @@ def markdown_to_markdown(markdown):
     """
     将带有图表标记的 Markdown 转换为包含Base64图片的 Markdown。
     """
+    # 确保输入文本以换行符结束
+    if not markdown.endswith('\n'):
+        markdown += '\n'
+        
     tables = extract_tables(markdown)
     result = markdown
 

@@ -119,27 +119,13 @@ if __name__ == "__main__":
     
     # 本地调用示
     markdown_input = """
-# 节假日信息\n 
-
-1. 第一项
-    1. 无序子项1
-    1. 无序子项2
-        1. 有序子项1
-        2. 有序子项2
-2. 第二项
-    1. 有序子项1
-        - 无序孙项1
-        - 无序孙项2
-    2. 有序子项2
-
-
-
+#### 节假日信息\\n根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为圣诞节，预计放假天数为1天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。\\n\\n
 """
     # 构建输入请求
     request = LayoutRequest(
         markdown_text=markdown_input,
-        card_width="870",
-        card_height="800",
+        card_width="400",
+        card_height="270",
         theme_color="" ,
         scale_value="1.0"
     ) 
