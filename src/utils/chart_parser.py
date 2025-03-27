@@ -97,22 +97,24 @@ def generate_chart_base64(df, chart_type):
         # 在每个柱子末端添加数值标签
         for bar in bars:
             width = bar.get_width()
+            # 使用整数格式而非科学计数法
             ax.text(width + 0.02*max(counts), bar.get_y() + bar.get_height()/2, 
                    f'{int(width)}', va='center', fontsize=14, fontproperties=font)
         
         # 设置x轴刻度标签格式
+        # 使用ScalarFormatter避免科学计数法
         formatter = ScalarFormatter(useOffset=False)
         formatter.set_scientific(False)
         ax.xaxis.set_major_formatter(formatter)
         
         # 增加x轴刻度标签字体大小
-        ax.set_xticklabels([f'{int(x)}' for x in ax.get_xticks()], 
-                           fontproperties=font, 
+        ax.set_xticklabels([f'{int(x)}' for x in ax.get_xticks()],
+                           fontproperties=font,
                            fontsize=14)  # 增加字体大小
-        
+
         # 设置轴标签字体大小
         ax.tick_params(axis='both', which='major', labelsize=14)  # 统一设置刻度标签大小
-        
+
         # 添加网格线
         ax.grid(axis='x', linestyle='--', alpha=0.7, color='#E0E0E0')
         
@@ -259,10 +261,6 @@ def parse_table(table_str):
     解析 Markdown 表格为 DataFrame
     优化：增加了列数一致性检查、格式错误处理、空格清理等功能。
     """
-    # 确保输入表格字符串以换行符结束
-    if not table_str.endswith('\n'):
-        table_str += '\n'
-        
     # 去除首尾空白和多余的空格
     lines = [line.strip() for line in table_str.strip().split('\n')]
 
@@ -283,13 +281,13 @@ def parse_table(table_str):
     # 检查列数一致性：表头和每一行的数据列数应一致
     header_columns = len(rows[0])
     valid_rows = [rows[0]]  # 保存表头
-    
+
     for row in rows[1:]:
         if len(row) == header_columns:
             valid_rows.append(row)
         else:
             print(f"警告：表格数据行列数不一致，跳过这一行: {row}")
-    
+
     # 如果没有有效数据行，返回None
     if len(valid_rows) < 2:
         print("没有有效的数据行")
@@ -309,7 +307,7 @@ def markdown_to_markdown(markdown):
     # 确保输入文本以换行符结束
     if not markdown.endswith('\n'):
         markdown += '\n'
-        
+
     tables = extract_tables(markdown)
     result = markdown
 

@@ -147,7 +147,374 @@ class BlockStyleGenerator(BaseGenerator):
             "dynamic_light": dynamic_light,
             "hover_effect": hover_effect
         }
-    
+
+    def load_css(self):
+        css_styles = {
+            "card": {
+                "1": """  
+                    margin: 0 auto;
+                    background-color: var(--color-layout-card-background);
+                    padding: 30px;
+                    border-left: 5px solid var(--color-layout-card-border);
+                    
+                """,
+                "2": """  
+                    margin: 0 auto;
+                    --input-focus: #2d8cf0;
+                    --font-color: var(--color-typography-text-primary);
+                    --font-color-sub: #666;
+                    --bg-color: var(--color-layout-card-background);
+                    --main-color: #323232;
+                    padding: 20px;
+                    background: var(--color-layout-card-background);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: center;
+                    gap: 20px;
+                    border-radius: 5px;
+                    border: 2px solid var(--color-layout-card-border);
+                    box-shadow: 4px 4px var(--color-layout-card-border);
+                """,
+                "3": """  
+                    margin: 0 auto;
+                    background-color: var(--color-layout-card-background);
+                    display: block;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                """,
+                # "4": """
+                #     margin: 0 auto;
+                #     display: flex;
+                #     flex-direction: column;
+                #     align-items: center;
+                #     background-color: var(--color-layout-card-background);
+                #     width: 15.5em;
+                #     height: 22.5em;
+                #     border: 2px solid var(--color-layout-card-border);
+                #     border-bottom-left-radius: 5em;
+                #     border-top-right-radius: 5em;
+                #     box-shadow: -10px 0px 0px #fffffa,
+                #                 -10px 5px 5px rgba(255, 255, 255, 0.2);
+                #     overflow: hidden;
+                #     position: relative;
+                #     transition: all 0.25s ease;
+                # """,
+                "4": """    
+                    margin: 0 auto;
+                    --main-col: #ffeba7;
+                    --bg-col: #2a2b38;
+                    --bg-field: #1f2029;
+                    width: 190px;
+                    padding: 1.9rem 1.2rem;
+                    text-align: center;
+                    background: var(--color-layout-card-background);
+                    border-radius: 10px;
+                    border: 5px solid var(--color-layout-card-border);
+                    user-select: none;
+                """,
+
+
+                "5": """      
+                        margin: 0 auto;  
+                        border-radius: 5px;
+                        border: 2px solid var(--color-layout-card-border);
+                        background-color: var(--color-layout-card-background);)  ;
+                        box-shadow: 4px 4px #000000;
+                        font-size: 17px;
+                        font-weight: 600;
+                        color: var(--color-typography-text-primary);
+                        cursor: pointer;
+                        fill: var(--color-layout-card-background);
+                    """,
+                "6": """  
+                        margin: 0 auto;  
+                        background-color: var(--color-layout-card-background);
+                        color: var(--color-typography-text-primary);
+                        border: 0;
+                        border-radius: 24px;
+                        padding: 10px 16px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: var(--color-layout-card-background) .3s ease;
+                    """,
+                "7": """   
+                        margin: 0 auto;  
+                        position: absolute;
+                        backface-visibility: hidden;
+                        padding: 15px 20px;
+                        border-radius: 15px;
+                        box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
+                                    inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+                    """,
+                "8": """  
+                        margin: 0 auto;
+                        overflow: auto;
+                          --white: hsl(0, 0%, 100%);
+                          --black: hsl(240, 15%, 9%);
+                          --paragraph: hsl(0, 0%, 83%);
+                          --line: hsl(240, 9%, 17%);
+                          --primary: hsl(189, 92%, 58%);
+
+                          position: relative;
+
+                          display: flex;
+                          flex-direction: column;
+                          gap: 1rem;
+
+                          padding: 1rem;
+                          width: 19rem;
+                          background-color: var(--color-layout-block-background);
+                          background-image: radial-gradient(
+                              at 88% 40%,
+                              var(--color-theme-accent-800) 0px,
+                              transparent 85%
+                            ),
+                            radial-gradient(at 49% 30%, var(--color-component-content-background) 0px, transparent 85%),
+                            radial-gradient(at 14% 26%, var(--color-theme-accent-700) 0px, transparent 85%),
+                            radial-gradient(at 0% 64%, var(--color-theme-accent-500) 0px, transparent 85%),
+                            radial-gradient(at 41% 94%, var(--color-theme-accent-700) 0px, transparent 85%),
+                            radial-gradient(at 100% 99%, var(--color-theme-accent-900) 0px, transparent 85%);
+
+
+                          border-radius: 1rem;
+                          box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;""",
+                "9": """ 
+                            margin: 0 auto;
+                            ustify-content: center;
+                              background: linear-gradient(135deg, var(color-theme-accent-50), var(color-theme-accent-800));
+                              color: white;
+                              padding: 14px 28px;
+                              border-radius: 50px;
+                              cursor: pointer;
+                              transition:
+                                background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                                transform 0.3s ease,
+                                box-shadow 0.4s ease;
+                              box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+                              position: relative;
+                              z-index: 10;
+                              overflow: hidden;"""
+            },
+            "block": {
+                "1": """  
+                    overflow: auto;
+                    position: relative;
+                    text-align: left;
+                    padding: 10px;
+                    color: #caf438;
+                    font-weight: bold;
+                    background: var(--color-layout-block-background);
+                    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 
+                                       calc(100% - 10px) 100%, 0 100%);
+                    transition: all 0.2s ease-in-out;
+                """,
+                "2": """   
+                    overflow: auto;     
+                 
+                    border-radius: 5px;
+                    border: 2px solid #000000;
+                    background-color: var(--color-layout-block-background);
+                    box-shadow: 4px 4px #000000;
+                    font-size: 17px;
+                    font-weight: 600;
+                    color: var(--font-color);
+                    cursor: pointer;
+                    fill: var(--main-color);
+                """,
+                "3": """  
+                     overflow: auto;
+                    background-color: var(--color-layout-block-background);
+                    color: var(color-layout-block-background);
+                    border: 0;
+                    border-radius: 24px;
+                    padding: 10px 16px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background-color .3s ease;
+                """,
+                "4": """   
+                    overflow: auto;
+                    position: absolute;
+                    backface-visibility: hidden;
+                    padding: 15px 20px;
+                    border-radius: 15px;
+                    box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
+                                inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+                """,
+                # "5": """
+                #          overflow: auto;
+                #         background-color: var(--color-layout-block-background);
+                #         padding: 30px;
+                #         border-left: 5px solid #ff7a01;
+                #         clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+                #     """,
+                "5": """  
+                         overflow: auto;
+                        --input-focus: #2d8cf0;
+                        --font-color: #323232;
+                        --font-color-sub: #666;
+                        --bg-color: var(color-layout-block-background);
+                        --main-color: #323232;
+
+                        background: var(--color-layout-block-background);
+
+
+                        justify-content: center;
+                        gap: 10px;
+                        border-radius: 5px;
+                        border: 2px solid var(--color-layout-block-border);
+                        box-shadow: 4px 4px var(--main-color);
+                    """,
+                "6": """  
+                         overflow: auto;
+                        background-color: var(--color-layout-block-background);
+                        display: block;
+                        padding: 1rem;
+                        border-radius: 0.5rem;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                                    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                    """,
+                # "7": """
+                #          overflow: auto;
+                #           display: flex;
+                #         flex-direction: column;
+                #
+                #         background-color: var(--color-layout-block-background);
+                #         width: 15.5em;
+                #         height: 22.5em;
+                #         border: 2px solid var(--color-layout-block-border);
+                #         border-bottom-left-radius: 5em;
+                #         border-top-right-radius: 5em;
+                #         box-shadow: -10px 0px 0px var(--color-layout-card-border);,
+                #                     -10px 5px 5px rgba(255, 255, 255, 0.2);
+                #         overflow: hidden;
+                #         position: relative;
+                #         transition: all 0.25s ease;
+                #     """,
+                "7": """    
+                         overflow: auto;
+                        --main-col: #ffeba7;
+                        --bg-col: #2a2b38;
+                        --bg-field: #1f2029;
+                        width: 190px;
+                        padding: 1.9rem 1.2rem;
+                        text-align: center;
+                        background: var(--color-layout-block-background);
+                        border-radius: 10px;
+                        border: 5px solid var(--main-col);
+                        user-select: none;
+                    """,
+                "8": """  
+                          margin: 0 auto;
+                        overflow: auto;
+                          --white: hsl(0, 0%, 100%);
+                          --black: hsl(240, 15%, 9%);
+                          --paragraph: hsl(0, 0%, 83%);
+                          --line: hsl(240, 9%, 17%);
+                          --primary: hsl(189, 92%, 58%);
+
+                          position: relative;
+
+                          display: flex;
+                          flex-direction: column;
+                          gap: 1rem;
+
+                          padding: 1rem;
+                          width: 19rem;
+                          background-color: var(--color-layout-block-background);
+                          background-image: radial-gradient(
+                              at 88% 40%,
+                              var(--color-theme-accent-800) 0px,
+                              transparent 85%
+                            ),
+                            radial-gradient(at 49% 30%, var(--color-component-content-background) 0px, transparent 85%),
+                            radial-gradient(at 14% 26%, var(--color-theme-accent-700) 0px, transparent 85%),
+                            radial-gradient(at 0% 64%, var(--color-theme-accent-500) 0px, transparent 85%),
+                            radial-gradient(at 41% 94%, var(--color-theme-accent-700) 0px, transparent 85%),
+                            radial-gradient(at 100% 99%, var(--color-theme-accent-900) 0px, transparent 85%);
+
+                          border-radius: 1rem;
+                          box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;""",
+                "9": """  
+                                 overflow: auto;
+                                  align-items: center;
+                                  justify-content: center;
+                                  background: linear-gradient(135deg,var(--color-layout-block-background), var(--color-theme-secondary-200));
+                                  color: white;
+                                  padding: 14px 28px;
+                                  border-radius: 50px;
+                                  cursor: pointer;
+                                  transition:
+                                    background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                                    transform 0.3s ease,
+                                    box-shadow 0.4s ease;
+                                  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+                                  position: relative;
+                                  z-index: 10;
+                                  overflow: hidden;"""
+            },
+            "content": {
+                # "1": """
+                #     width: 100%;
+                #     padding: 10px;
+                #     outline: none;
+                #     border: none;
+                #     color: #000;
+                #     font-size: 1em;
+                #     background: transparent;
+                #     border-left: 2px solid #000;
+                #     border-bottom: 2px solid #000;
+                #     transition: 0.1s;
+                #     border-bottom-left-radius: 8px;
+                # """
+                "1": """
+           width: 100%;
+                  border: solid 1px var(--color-typography-text-primary);
+                  background-color: var(--color-component-content-background);
+
+                  border-radius: 10px;
+                  padding: 10px;
+                  color: var(--color-typography-text-primary);
+                  box-shadow: 0px 8px 20px -10px var(--color-typography-text-secondary);
+                  text-shadow: 0px 0px 5px var(--color-theme-accent-50);
+                  letter-spacing: 1px;
+                  background-image: radial-gradient(circle 160px at 50% 120%, var(--color-theme-accent-50), var(--color-theme-accent-300));"""
+             },
+            "title-1": {
+                "1": """   
+                      margin-bottom: 1rem;
+                    color: var(--color-typography-text-primary);
+                    text-shadow: 1px 1px 20px var(--color-typography-text-secondary);
+                    text-transform: uppercase;
+                """,
+                "2": """  
+                    display: block;
+                    margin-top: -0.5rem;
+                    font-size: 2.1rem;
+                    font-weight: 800;
+                    font-family: Arial, Helvetica, sans-serif;
+                    text-align: center;
+                    -webkit-text-stroke: #fff 0.1rem;
+                    letter-spacing: 0.2rem;
+                    color: transparent;
+                    position: relative;
+                    text-shadow: 0px 0px 16px #CECECE;
+                """
+            }
+        }
+
+        return css_styles
+
+
+
+
+
+
     def generate(self, layout_info: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """生成块样式规则"""
         try:

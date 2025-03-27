@@ -29,7 +29,7 @@ markdown_parser = None
 
 # 路径设置
 current_dir = os.path.dirname(os.path.abspath(__file__))
-layout_model_path = '/home/liyue/dingdaocode/aigui-model-service/data/models/layout/layoutModel_05.pth'
+layout_model_path = r'D:\songql2\liyue_01\data\models\layout\layoutModel_05.pth'
 
 # 初始化组件
 def init_components():
@@ -120,10 +120,7 @@ if __name__ == "__main__":
     # 本地调用示
     markdown_input = """
 
-# 节假日信息\n![holiday](https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=800&auto=format&fit=crop)\n根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为圣诞节，预计放假天数为1天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。\n\n# 请假方案\n![calendar](https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=800&auto=format&fit=crop)\n####请假理由：\n个人健康与家庭事务\n####请假开始时间：\n2024-12-23 09:00\n####请假结束时间：\n2024-12-27 18:00\n####请假时长：\n5天\n\n# 请假日期\n| 日期   | 星期 | 备注   |\n| ------ | ---- | ------ |\n| 12月23日 | 周一 | 请假   |\n| 12月24日 | 周二 | 请假   |\n| 12月25日 | 周三 | 请假   |\n| 12月26日 | 周四 | 请假   |\n| 12月27日 | 周五 | 请假   |\n\n# 旅游建议\n根据您的假期时长，查询了近期适合出游的地点，建议前往以下地区及景点：\n\n#### 北京 - 北京市 100KM\n![beijing](https://images.unsplash.com/photo-1508697014387-db70aad34f4d?w=800&auto=format&fit=crop)\n- 故宫博物院、颐和园、天安门广场\n\n#### 上海 - 上海市 1000KM\n![shanghai](https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=800&auto=format&fit=crop)\n- 外滩、东方明珠、上海迪士尼乐园\n\n#### 成都 - 四川省 1500KM\n![chengdu](https://images.unsplash.com/photo-1545586669-278ce8834cda?w=800&auto=format&fit=crop)\n- 宽窄巷子、武侯祠、锦里古街
-
-
-
+# 节假日信息\\n根据中国国家假日办发布的节假日放假信息，您距离今天最近的节假日为圣诞节，预计放假天数为1天，祝您出行愉快！需要注意的是，假期安排可能会有调整，建议提前确认。\\n\\n# 请假方案\\n####请假理由：\\n个人健康与家庭事务\\n####请假开始时间：\\n2024-12-23 09:00\\n####请假结束时间：\\n2024-12-27 18:00\\n####请假时长：\\n5天\\n\\n# 请假日期\\n| 日期   | 星期 | 备注   |\\n| ------ | ---- | ------ |\\n| 12月23日 | 周一 | 请假   |\\n| 12月24日 | 周二 | 请假   |\\n| 12月25日 | 周三 | 请假   |\\n| 12月26日 | 周四 | 请假   |\\n| 12月27日 | 周五 | 请假   |\\n\\n# 请假日期\n根据您的假期时长，查询了近期适合出游的地点，建议前往以下地区及景点：\\n[chart:pie]| 日期     | 销量   |\n| -------- | ------ |\n| 2024-01-01 | 100    |\n| 2024-01-02 | 150    |\n根据您的假期时长，查询了近期适合出游的地点，建议前往以下地区及景点：\\n[chart:bar]| 日期     | 销量   |\n| -------- | ------ |\n| 2024-01-01 | 100    |\n| 2024-01-02 | 150    |\n\n
 """
     # 构建输入请求
     request = LayoutRequest(
@@ -132,7 +129,6 @@ if __name__ == "__main__":
         card_height="700",
         theme_color="",
         scale_value="1.0" )
-
 
     # 生成布局
     response = generate_layout_local(request)

@@ -1,6 +1,7 @@
 # runtime/converter/style_applier.py
 import json
 import uuid
+import time
 from typing import Dict, Any
 import random
 
@@ -157,7 +158,7 @@ class StyleApplier:
         # 将动画应用到相应的元素
         animation_css = f"""
 /* 入场动画 */
-.{self.unique_class} .block {{
+/*.{self.unique_class} .block {{
     animation: var(--animation-duration-normal) var(--animation-easing-standard) both;
     animation-name: {animations.get('entrance', {}).get('name', 'none')};
     animation-delay: calc(var(--animation-duration-fast) * var(--animation-order, 0));
@@ -167,7 +168,7 @@ class StyleApplier:
     perspective: 1000px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}}
+}}*/
 
 /* 悬停动画 */
 .{self.unique_class} .block:hover {{
@@ -197,10 +198,17 @@ class StyleApplier:
         # 添加块样式规则
         block_style = self.style_rules.get("block_style", {})
         block_css = self._generate_block_css_rules(block_style)
-        
+        css_lab = self.style_rules.get("css_lab", {})
+
+        title_1 = self._generate_element_random_css(css_lab, "title-1")
+        block = self._generate_element_random_css(css_lab, "block")
+        content = self._generate_element_random_css(css_lab, "content")
+        card = self._generate_element_random_css(css_lab, "card")
         # 合并所有CSS规则
-        return "\n".join(keyframes_rules) + animation_css + self._generate_base_css_rules() + block_css
-    
+        #暂时不引用block_css
+        #增加新的随机样式选择css生成方式
+        return "\n".join(keyframes_rules) + animation_css + self._generate_base_css_rules()+card + title_1+block+content+card
+
     def _generate_base_css_rules(self) -> str:
         """生成基础CSS规则"""
         base_css = f"""
@@ -222,7 +230,7 @@ body {{
 
 
 /* 卡片容器 */
-.{self.unique_class} .card {{
+/*.{self.unique_class} .card {{
     background: var(--color-layout-card-background);
     border: 1px solid var(--color-layout-card-border);
     border-radius: 12px;
@@ -230,10 +238,10 @@ body {{
     margin: 0 auto;
     position: relative;
     overflow: visible;
-}}
+}}*/
 
 /* 块级元素 */
-.{self.unique_class} .block {{
+/*.{self.unique_class} .block {{
     background: var(--color-layout-block-background);
     border: 1px solid var(--color-layout-block-border);
     border-radius: 8px;
@@ -246,7 +254,7 @@ body {{
 .{self.unique_class} .block:hover {{
     transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}}
+}}*/
 
 /* 子区块 */
 .{self.unique_class} .subsection {{
@@ -274,7 +282,8 @@ body {{
 }}
 
 /* 标题样式 */
-.{self.unique_class} .title-1 {{
+
+/*.{self.unique_class} .title-1 {{
     background: var(--color-component-title_background-h1);
     color: var(--color-typography-title-h1);
     font-size: var(--font-size-h1);
@@ -289,7 +298,7 @@ body {{
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     animation: fadeIn 1s ease-out;
-}}
+}}*/
 
 .{self.unique_class} .title-1::before {{
     content: '';
@@ -303,7 +312,7 @@ body {{
         rgba(255, 255, 255, 0) 50%, 
         rgba(255, 255, 255, 0.1) 100%);
     z-index: 1;
-}}
+}}*/
 
 .{self.unique_class} .title-2 {{
     background: var(--color-component-title_background-h2);
@@ -370,7 +379,9 @@ body {{
 }}
 
 /* 内容区域 */
-.{self.unique_class} .content {{
+/*附加的样式*/
+
+/*.{self.unique_class} .content {{
     background: var(--color-component-content-background);
     color: var(--color-typography-text-primary);
     font-size: var(--font-size-body);
@@ -379,7 +390,7 @@ body {{
     border-radius: 4px;
     position: relative;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}}
+}}*/
 
 .{self.unique_class} .content p {{
     margin-bottom: var(--spacing-sm);
@@ -402,8 +413,8 @@ body {{
     position: relative;
 }}
 
-.{self.unique_class} .image-wrapper::after {{
-    content: '🔍';
+/*.{self.unique_class} .image-wrapper::after {{
+    content: '';
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -414,7 +425,7 @@ body {{
     font-size: 14px;
     opacity: 0;
     transition: opacity 0.3s;
-}}
+}}*/
 
 .{self.unique_class} .image-wrapper:hover::after {{
     opacity: 1;
@@ -442,11 +453,11 @@ body {{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    opacity: 0;
+    opacity: 90;
     transition: opacity 0.3s ease;
 }}
 
@@ -740,3 +751,16 @@ body {{
 """
         
         return block_css
+#返回一个指定标签名称库内的css样式
+    def _generate_element_random_css(self, css_list,element_name) -> str:
+        css = ""
+        current_time_slot = int(time.time() //60)  # 每 3 分钟一个时间窗口
+        random.seed(current_time_slot)  # 用时间窗口作为种子，保证 3 分钟内随机数固定
+        if element_name in css_list.keys():
+            element_num = random.choice(list(css_list.get(element_name).keys()))
+            print("Element num:", element_num)
+            css = css_list.get(element_name).get(element_num)
+        else:
+            print("Element not found")
+        return "."+self.unique_class+" ."+element_name+"{"+css+r"}"
+

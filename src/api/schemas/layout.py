@@ -6,7 +6,7 @@ from pydantic import BaseModel, validator
 class LayoutRequest(BaseModel):
     markdown_text: Optional[str] = "请传入文本"
     card_width: Optional[str] = "800"  # 改为可选，默认为 "800"
-    card_height: Optional[str] = "800"  # 改为可选，默认为 "800" 
+    card_height: Optional[str] = "800"  # 改为可选，默认为 "800"
     theme_color: Optional[str] = ""  # 改为可选，默认为空字符串
     scale_value: Optional[str] = "1.0"
     is_html: Optional[bool] = False
@@ -19,7 +19,7 @@ class LayoutRequest(BaseModel):
             return str(int(v))  # 转换为整数再转回字符串，确保是有效的整数字符串
         except ValueError:
             raise ValueError('尺寸必须是有效的整数字符串')
-    
+
     @validator('markdown_text')
     def validate_markdown_text(cls, v):
         if not v or v.strip() == "":

@@ -52,7 +52,7 @@ class StyleRuleGenerator:
         self.typography_generator = TypographyGenerator(self.typography_config)
         self.animation_generator = AnimationGenerator(self.animation_config)
         self.block_style_generator = BlockStyleGenerator(BlockStyleConfig())
-    
+
     def generate(self) -> Dict[str, Any]:
         """生成完整的样式规则"""
         try:
@@ -79,6 +79,8 @@ class StyleRuleGenerator:
             spacing_rules = self.spacing_generator.generate(self.layout_info)
             typography_rules = self.typography_generator.generate(self.layout_info)
             block_style = self.block_style_generator.generate(self.layout_info)
+            #返回新的随机样式规则库
+            css_lab = self.block_style_generator.load_css()
             # 生成动效规则
             animation_rules = self.animation_generator.generate(self.layout_info)
             
@@ -87,7 +89,8 @@ class StyleRuleGenerator:
                 "spacing": spacing_rules,
                 "typography": typography_rules,
                 "animation": animation_rules,
-                "block_style": block_style
+                "block_style": block_style,
+                "css_lab": css_lab
             }
             
         except Exception as e:

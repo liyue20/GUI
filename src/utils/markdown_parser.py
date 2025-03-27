@@ -77,7 +77,7 @@ class MarkdownParser:
         """解析HTML内容"""
         highest_level = self._get_highest_level_header(markdown_text)
         elements = list(soup.children)
-        
+
         for element in elements:
             if not element.name:  # 跳过空文本节点
                 continue
@@ -85,6 +85,7 @@ class MarkdownParser:
             # 处理标题
             if element.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
                 level = int(element.name[1])
+                highest_level = self._get_highest_level_header(markdown_text)
                 if level == highest_level:  # 最高级标题开始新的主section
                     self._handle_main_section(element)
                 else:  # 其他级别标题作为子section
@@ -109,7 +110,7 @@ class MarkdownParser:
         
         # 获取实际的标题级别
         level = int(element.name[1])  # 从h1,h2,h3等标签名中提取数字
-        
+
         # 创建新的main section，使用实际的标题级别
         self.current_section = {
             "title": {
@@ -164,7 +165,7 @@ class MarkdownParser:
         # 正则表达式查找所有标题行
         lines = text.split('\n')
         processed_lines = []
-        
+
         for line in lines:
             # 处理标题行格式
             header_match = re.match(r'^(#+)(\s*)(.*)$', line)
@@ -173,13 +174,13 @@ class MarkdownParser:
                 hashes = header_match.group(1)  # 获取所有#
                 space = header_match.group(2)   # 获取#和文本之间的空格
                 content = header_match.group(3) # 获取文本内容
-                
+
                 # 确保#和内容之间有一个空格
                 if not space:
                     line = f"{hashes} {content}"
-            
+
             processed_lines.append(line.rstrip())
-        
+
         # 4. 如果没有任何标题，添加一个空的一级标题
         if not any(re.match(r'^#+\s', line) for line in processed_lines):
             processed_lines.insert(0, "# ")
